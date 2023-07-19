@@ -1,0 +1,25 @@
+/*
+ * @Author: xuzihan xuzihan@tongji.edu.cn
+ * @Date: 2023-07-19 17:13:43
+ * @FilePath: /railbot-v2/Src/Common/RobotParts/Blackboard/Blackboard.cpp
+ * @Description:
+ *
+ */
+#include "Blackboard.h"
+
+static Bb *theInstance = nullptr;
+
+Bb::Bb() {
+  if (theInstance != nullptr) return;
+  theInstance = this;
+
+  makeR();
+}
+
+Bb::~Bb() { theInstance = nullptr; }
+
+Bb &Bb::instance() { return *theInstance; }
+
+void Bb::makeR() {
+  _MAKE(FrameInfo);
+}
