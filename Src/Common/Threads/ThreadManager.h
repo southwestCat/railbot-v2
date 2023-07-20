@@ -12,11 +12,27 @@
 
 #include <iostream>
 #include <string>
+#include <string.h>
 
 #include "Common/Blackboard/BlackboardThread.h"
 #include "Timer.h"
 
 extern bool attemptingShutdown;
+
+/*
+Set thread priority SCHED_FIFO or SCHED_RR
+Get the min and max priority nby `chrt -m` in NAO.
+If you want RT, priority 80 is prefer. Considering 
+that every thread has a sleep() function. Perhaps too 
+high a priority will not affect system operation.
+*/
+// SCHED_OTHER min/max priority	: 0/0
+// SCHED_FIFO min/max priority	: 1/99
+// SCHED_RR min/max priority	: 1/99
+// SCHED_BATCH min/max priority	: 0/0
+// SCHED_IDLE min/max priority	: 0/0
+// SCHED_DEADLINE min/max priority	: 0/0
+int pthread_attr_init_with_sched_policy(pthread_attr_t *attr, struct sched_param *param, int sch_algorithm, int rt_priority);
 
 class ThreadManager;
 
@@ -109,7 +125,15 @@ void ThreadManager::run(BlackboardThread *bb) {
               << cpuID << std::endl;
   } else if (name == "Motion") {
     const int cpuID = 3;
-    if (0 != pthread_create(&pthread, NULL,
+    pthread_attr_t attr;
+    struct sched_param param;
+    int ret = pthread_attr_init_with_sched_policy(&attr, &param, SCHED_FIFO, 99);
+    if (ret) {
+      std::cerr << "pthread_attr_init_with_sched_policy error.\n" << std::endl;
+      exit(-1);
+    }
+
+    if (0 > pthread_create(&pthread, &attr,
                             &thunk<ThreadManager, &ThreadManager::safelyRun<T>>,
                             &args)) {
       std::cerr << "[ERROR] Cannot create thread: " << name << std::endl;
