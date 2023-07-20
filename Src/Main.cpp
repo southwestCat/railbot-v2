@@ -9,8 +9,11 @@
 #include <iostream>
 
 #include "Common/Blackboard/BlackboardThread.h"
-#include "Common/Threads/ThreadManager.h"
+#include "Common/Threads/Cognition.h"
+#include "Common/Threads/Lower.h"
 #include "Common/Threads/Motion.h"
+#include "Common/Threads/ThreadManager.h"
+#include "Common/Threads/Upper.h"
 #include "Modules/Infrastructure/NaoProvider/NaoProvider.h"
 
 using namespace std;
@@ -35,6 +38,16 @@ int main() {
   ThreadManager motion("Motion", 0);
   motion.run<Motion>(bbt);
 
+  ThreadManager upper("Upper", 33);
+  upper.run<Upper>(bbt);
+  usleep(15000);
+
+  ThreadManager lower("Lower", 33);
+  lower.run<Lower>(bbt);
+  usleep(15000);
+
+  ThreadManager cognition("Cognition", 15);
+  cognition.run<Cognition>(bbt);  
 
   while (run) {
     pause();

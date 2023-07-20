@@ -6,3 +6,11 @@
  * 
  */
 #pragma once
+
+#include "ThreadBase.h"
+
+class Lower : public ThreadBase {
+ public:
+  Lower(BlackboardThread *bbt) : ThreadBase(bbt) {}
+  void tick();
+};

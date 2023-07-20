@@ -6,3 +6,5 @@
  * 
  */
 #include "Lower.h"
+
+void Lower::tick() {}

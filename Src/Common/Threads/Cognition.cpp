@@ -6,3 +6,5 @@
  * 
  */
 #include "Cognition.h"
+
+void Cognition::tick() {}

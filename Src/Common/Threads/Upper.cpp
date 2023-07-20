@@ -6,3 +6,8 @@
  * 
  */
 #include "Upper.h"
+#include <iostream>
+
+void Upper::tick() {
+  // std::cout << "[Upper]: " << std::endl;
+}
