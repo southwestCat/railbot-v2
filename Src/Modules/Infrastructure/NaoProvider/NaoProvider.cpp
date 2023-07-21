@@ -105,6 +105,12 @@ void NaoProvider::updateBatterySensorData() {
   getBatterySensorData.temperature = lolaMsg.Battery[3];
 }
 
+void NaoProvider::updateInertialSensorData() {
+  getInertialSensorData.acc << lolaMsg.Accelerometer[0], lolaMsg.Accelerometer[1], lolaMsg.Accelerometer[2];
+  getInertialSensorData.gyro << lolaMsg.Gyroscope[0], lolaMsg.Gyroscope[1], lolaMsg.Gyroscope[2];
+  getInertialSensorData.angle << lolaMsg.Angles[0], lolaMsg.Angles[1];
+}
+
 void NaoProvider::waitLoLA() { receivePacket(); }
 
 void NaoProvider::finishLoLA() { sendPacket(); }
