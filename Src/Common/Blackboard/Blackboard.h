@@ -11,8 +11,10 @@
 
 #include "Representations/Infrastructure/FrameInfo.h"
 #include "Representations/SensorData/BatterySensorData.h"
-#include "Representations/SensorData/JointSensorData.h"
+#include "Representations/SensorData/FSRSensorData.h"
 #include "Representations/SensorData/InertialSensorData.h"
+#include "Representations/SensorData/JointSensorData.h"
+#include "Representations/SensorData/TouchSensorData.h"
 
 #define _USE(R) const R &get##R = *(Bb::instance().get##R.get())
 #define _MODIFY(R) R &get##R = *(Bb::instance().get##R.get())
@@ -31,6 +33,8 @@ class Bb {
   _DECLARE(JointSensorData);
   _DECLARE(BatterySensorData);
   _DECLARE(InertialSensorData);
+  _DECLARE(FSRSensorData);
+  _DECLARE(TouchSensorData);
 
  private:
   void makeR();

@@ -8,5 +8,6 @@
 #pragma once
 
 namespace FSRSensors {
+// frontleft, frontright, rearleft, rearright
 enum FSRSensor { fl, fr, rl, rr, numOfFSRSensors };
-}
+}  // namespace FSRSensors

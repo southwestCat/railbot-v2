@@ -25,4 +25,6 @@ void Bb::makeR() {
   _MAKE(JointSensorData);
   _MAKE(BatterySensorData);
   _MAKE(InertialSensorData);
+  _MAKE(FSRSensorData);
+  _MAKE(TouchSensorData);
 }

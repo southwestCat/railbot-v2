@@ -20,6 +20,8 @@ class NaoProvider {
   _MODIFY(JointSensorData);
   _MODIFY(BatterySensorData);
   _MODIFY(InertialSensorData);
+  _MODIFY(FSRSensorData);
+  _MODIFY(TouchSensorData);
 
  public:
   NaoProvider();
@@ -60,9 +62,8 @@ class NaoProvider {
     std::array<bool, NSonar> Sonar;
   } pack;
 
-  static const int
-      jointMappings[Joints::numOfJoints]; /**< Mappings from LoLA's joint
-                           indices to request joint indices. */
+  static const int jointMappings[Joints::numOfJoints]; /**< Mappings from LoLA's joint indices to request joint indices. */
+  static const int touchMappings[TouchSensorData::numOfTouchs];
   unsigned timeWhenPacketReceived = 0;
 
  private:
@@ -70,6 +71,8 @@ class NaoProvider {
   void updateJointSensorData();
   void updateBatterySensorData();
   void updateInertialSensorData();
+  void updateFSRSensorData();
+  void updateTouchSensorData();
 
  private:
   void waitLoLA();

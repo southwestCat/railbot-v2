@@ -48,6 +48,23 @@ enum JointOrdLoLA {
   RHand
 };
 
+enum TouchOrdLoLA {
+  Chest,
+  HeadFront,
+  HeadMiddle,
+  HeadRear,
+  LFootLeft,
+  LFootRight,
+  LHandBack,
+  LHandLeft,
+  LHandRight,
+  RFootLeft,
+  RFootRight,
+  RHandBack,
+  RHandLeft,
+  RHandRight
+};
+
 const int NaoProvider::jointMappings[Joints::numOfJoints] = {
     HeadYaw,      HeadPitch,  LShoulderPitch, LShoulderRoll,  LElbowYaw,
     LElbowRoll,   LWristYaw,  LHand,          RShoulderPitch, RShoulderRoll,
@@ -55,6 +72,11 @@ const int NaoProvider::jointMappings[Joints::numOfJoints] = {
     LHipRoll,     LHipPitch,  LKneePitch,     LAnklePitch,    LAnkleRoll,
     RHipYawPitch, RHipRoll,   RHipPitch,      RKneePitch,     RAnklePitch,
     RAnkleRoll};
+
+const int NaoProvider::touchMappings[TouchSensorData::numOfTouchs] = {
+    Chest,      HeadFront, HeadMiddle, HeadRear,   LFootLeft,
+    LFootRight, LHandBack, LHandLeft,  LHandRight, RFootLeft,
+    RFootRight, RHandBack, RHandLeft,  RHandRight};
 
 NaoProvider::NaoProvider() {
   receivedPacket = make_unique<unsigned char[]>(LOLAMSGLEN);
@@ -84,6 +106,9 @@ void NaoProvider::update() {
   getFrameInfo.time = timeWhenPacketReceived;
   updateJointSensorData();
   updateBatterySensorData();
+  updateInertialSensorData();
+  updateFSRSensorData();
+  updateTouchSensorData();
 }
 
 void NaoProvider::updateJointSensorData() {
@@ -106,9 +131,33 @@ void NaoProvider::updateBatterySensorData() {
 }
 
 void NaoProvider::updateInertialSensorData() {
-  getInertialSensorData.acc << lolaMsg.Accelerometer[0], lolaMsg.Accelerometer[1], lolaMsg.Accelerometer[2];
-  getInertialSensorData.gyro << lolaMsg.Gyroscope[0], lolaMsg.Gyroscope[1], lolaMsg.Gyroscope[2];
+  getInertialSensorData.acc << lolaMsg.Accelerometer[0],
+      lolaMsg.Accelerometer[1], lolaMsg.Accelerometer[2];
+  getInertialSensorData.gyro << lolaMsg.Gyroscope[0], lolaMsg.Gyroscope[1],
+      lolaMsg.Gyroscope[2];
   getInertialSensorData.angle << lolaMsg.Angles[0], lolaMsg.Angles[1];
+}
+
+void NaoProvider::updateFSRSensorData() {
+  float totalL = 0.f;
+  float totalR = 0.f;
+  for (int leg = 0; leg < Legs::numOfLegs; leg++) {
+    for (int fsr = 0; fsr < FSRSensors::numOfFSRSensors; fsr++) {
+      getFSRSensorData.pressure[leg][fsr] = lolaMsg.FSR[leg * 4 + fsr];
+    }
+  }
+  for (int i = 0; i < FSRSensors::numOfFSRSensors; i++) {
+    totalL += getFSRSensorData.pressure[Legs::left][i];
+    totalR += getFSRSensorData.pressure[Legs::right][i];
+  }
+  getFSRSensorData.total[Legs::left] = totalL;
+  getFSRSensorData.total[Legs::right] = totalR;
+}
+
+void NaoProvider::updateTouchSensorData() {
+  for (int i = 0; i < TouchSensorData::numOfTouchs; i++) {
+    getTouchSensorData.pressed[i] = lolaMsg.Touch[touchMappings[i]] > 0.5f;
+  }
 }
 
 void NaoProvider::waitLoLA() { receivePacket(); }
