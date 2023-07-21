@@ -14,6 +14,7 @@ namespace Constants {
   constexpr float g1000 = 1000.f * g;
  
   //-> Value copy from cmath
+  //-> More accuracy value can refer to std::numbers::pi_v<long double>
   constexpr float e = 2.7182818284590452354f;	/* e */
   constexpr float pi = 3.14159265358979323846f;	/* pi */
   constexpr float pi2 = 2.f * pi;
