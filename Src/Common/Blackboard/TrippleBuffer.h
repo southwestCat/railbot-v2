@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <ostream>
+#include <cassert>
 
 template <typename T>
 class TrippleBuffer {
@@ -24,7 +25,11 @@ class TrippleBuffer {
     if (newest != 0 && reading != 0) writting = 0;
     else if (newest != 1 && reading != 1) writting = 1;
     else if (newest != 2 && reading != 2) writting = 2;
+    
     assert(writting < NUM);
+    assert(writting != newest);
+    assert(writting != reading);
+    
     *data[writting] = t;
     newest = writting;
   }
