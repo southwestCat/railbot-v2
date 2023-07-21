@@ -9,6 +9,7 @@
 
 #include <memory>
 
+#include "Representations/Infrastructure/BatterySensorData.h"
 #include "Representations/Infrastructure/FrameInfo.h"
 #include "Representations/Infrastructure/JointSensorData.h"
 
@@ -27,6 +28,7 @@ class Bb {
  public:
   _DECLARE(FrameInfo);
   _DECLARE(JointSensorData);
+  _DECLARE(BatterySensorData);
 
  private:
   void makeR();

@@ -18,6 +18,7 @@ class NaoProvider {
  private:
   _MODIFY(FrameInfo);
   _MODIFY(JointSensorData);
+  _MODIFY(BatterySensorData);
 
  public:
   NaoProvider();
@@ -66,6 +67,9 @@ class NaoProvider {
  private:
   void update();
   void updateJointSensorData();
+  void updateBatterySensorData();
+
+ private:
   void waitLoLA();
   void finishLoLA();
   void receivePacket();

@@ -23,4 +23,5 @@ Bb &Bb::instance() { return *theInstance; }
 void Bb::makeR() {
   _MAKE(FrameInfo);
   _MAKE(JointSensorData);
+  _MAKE(BatterySensorData);
 }

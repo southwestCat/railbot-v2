@@ -83,6 +83,7 @@ void NaoProvider::exec() {
 void NaoProvider::update() {
   getFrameInfo.time = timeWhenPacketReceived;
   updateJointSensorData();
+  updateBatterySensorData();
 }
 
 void NaoProvider::updateJointSensorData() {
@@ -95,6 +96,13 @@ void NaoProvider::updateJointSensorData() {
             ? static_cast<JointSensorData::TemperatureStatus>(lolaMsg.Status[jointMappings[i]])
             : JointSensorData::unknown;
   }
+}
+
+void NaoProvider::updateBatterySensorData() {
+  getBatterySensorData.charge = lolaMsg.Battery[0];
+  getBatterySensorData.current = lolaMsg.Battery[1];
+  getBatterySensorData.status = lolaMsg.Battery[2];
+  getBatterySensorData.temperature = lolaMsg.Battery[3];
 }
 
 void NaoProvider::waitLoLA() { receivePacket(); }
