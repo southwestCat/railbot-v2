@@ -48,6 +48,7 @@ NaoProvider::NaoProvider() {
 }
 
 NaoProvider::~NaoProvider() {
+  printf("~NaoProvider.\n");
   disableActuator();
   close(socket);
 }
@@ -108,7 +109,9 @@ void NaoProvider::sendPacket() {
   assert(send_stat == sbuffer.size());
 }
 
-void NaoProvider::setJoints() { stiffness.fill(0); }
+void NaoProvider::setJoints() { 
+  stiffness.fill(0);
+  }
 
 void NaoProvider::setLEDs() {
   chest[0] = 0;

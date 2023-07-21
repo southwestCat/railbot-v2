@@ -37,7 +37,7 @@ class NaoProvider {
   enum { NJoints = Joints::numOfJoints - 1 };
 
   std::array<float, NJoints> position;
-  std::array<float, NJoints> stiffness;
+  std::array<float, NJoints> stiffness; // [0,1]
   std::array<float, 3> chest;
   static const Joints::Joint
       jointMappings[Joints::numOfJoints -

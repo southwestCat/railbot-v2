@@ -133,6 +133,7 @@ void ThreadManager::run(BlackboardThread *bb) {
               << cpuID << std::endl;
   } else if (name == "Motion") {
     const int cpuID = 3;
+
     pthread_attr_t attr;
     struct sched_param param;
     int ret =
@@ -146,6 +147,11 @@ void ThreadManager::run(BlackboardThread *bb) {
     s = pthread_create(&pthread, &attr,
                        &thunk<ThreadManager, &ThreadManager::safelyRun<T>>,
                        &args);
+
+    // int s;
+    // s = pthread_create(&pthread, NULL,
+    //                    &thunk<ThreadManager, &ThreadManager::safelyRun<T>>,
+    //                    &args);
     if (s != 0) handle_error_en(s, "pthread_create");
     
     if (!setCPU(pthread, cpuID)) {
