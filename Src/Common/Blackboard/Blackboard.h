@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "Representations/Infrastructure/FrameInfo.h"
+#include "Representations/Infrastructure/JointSensorData.h"
 
 #define _USE(R) const R &get##R = *(Bb::instance().get##R.get())
 #define _MODIFY(R) R &get##R = *(Bb::instance().get##R.get())
@@ -25,6 +26,7 @@ class Bb {
 
  public:
   _DECLARE(FrameInfo);
+  _DECLARE(JointSensorData);
 
  private:
   void makeR();

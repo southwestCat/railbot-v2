@@ -1,7 +1,7 @@
 /*
  * @Author: xuzihan xuzihan@tongji.edu.cn
  * @Date: 2023-07-19 17:13:43
- * @FilePath: /railbot-v2/Src/Common/RobotParts/Blackboard/Blackboard.cpp
+ * @FilePath: /railbot-v2/Src/Common/Blackboard/Blackboard.cpp
  * @Description:
  *
  */
@@ -22,4 +22,5 @@ Bb &Bb::instance() { return *theInstance; }
 
 void Bb::makeR() {
   _MAKE(FrameInfo);
+  _MAKE(JointSensorData);
 }

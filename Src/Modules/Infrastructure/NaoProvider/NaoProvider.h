@@ -17,6 +17,7 @@
 class NaoProvider {
  private:
   _MODIFY(FrameInfo);
+  _MODIFY(JointSensorData);
 
  public:
   NaoProvider();
@@ -34,19 +35,37 @@ class NaoProvider {
   std::array<uint8_t, LOLAMSGLEN> receivedPacketArr;
 
  private:
-  enum { NJoints = Joints::numOfJoints - 1 };
+  enum { NJoint = 25 };
+  enum { NEar = 10 };
+  enum { NChest = 3 };
+  enum { NEye = 24 };
+  enum { NFoot = 3 };
+  enum { NSkull = 12 };
+  enum { NSonar = 2 };
 
-  std::array<float, NJoints> position;
-  std::array<float, NJoints> stiffness; // [0,1]
-  std::array<float, 3> chest;
-  static const Joints::Joint
-      jointMappings[Joints::numOfJoints -
-                    1]; /**< Mappings from LoLA's joint indices to request
-                           joint indices. */
+  // Data received by LoLA client (This program sent this data to LoLA).
+  struct LoLAReceivedData {
+    std::array<float, NJoint> Position;
+    std::array<float, NJoint> Stiffness; // [0, 1]
+    std::array<float, NEar> REar;
+    std::array<float, NEar> LEar;
+    std::array<float, NChest> Chest;
+    std::array<float, NEye> LEye;
+    std::array<float, NEye> REye;
+    std::array<float, NFoot> LFoot;
+    std::array<float, NFoot> RFoot;
+    std::array<float, NSkull> Skull;
+    std::array<bool, NSonar> Sonar;
+  } pack;
+
+  static const int
+      jointMappings[Joints::numOfJoints]; /**< Mappings from LoLA's joint
+                           indices to request joint indices. */
   unsigned timeWhenPacketReceived = 0;
 
  private:
   void update();
+  void updateJointSensorData();
   void waitLoLA();
   void finishLoLA();
   void receivePacket();

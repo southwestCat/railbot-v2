@@ -18,22 +18,43 @@
 using json = nlohmann::json;
 using namespace std;
 
-const Joints::Joint NaoProvider::jointMappings[Joints::numOfJoints - 1] = {
-    Joints::headYaw,        Joints::headPitch,
+// Joint order in LoLA data
+enum JointOrdLoLA {
+  HeadYaw,
+  HeadPitch,
+  LShoulderPitch,
+  LShoulderRoll,
+  LElbowYaw,
+  LElbowRoll,
+  LWristYaw,
+  LHipYawPitch,
+  RHipYawPitch = LHipYawPitch,
+  LHipRoll,
+  LHipPitch,
+  LKneePitch,
+  LAnklePitch,
+  LAnkleRoll,
+  RHipRoll,
+  RHipPitch,
+  RKneePitch,
+  RAnklePitch,
+  RAnkleRoll,
+  RShoulderPitch,
+  RShoulderRoll,
+  RElbowYaw,
+  RElbowRoll,
+  RWristYaw,
+  LHand,
+  RHand
+};
 
-    Joints::lShoulderPitch, Joints::lShoulderRoll, Joints::lElbowYaw,
-    Joints::lElbowRoll,     Joints::lWristYaw,
-
-    Joints::lHipYawPitch,   Joints::lHipRoll,      Joints::lHipPitch,
-    Joints::lKneePitch,     Joints::lAnklePitch,   Joints::lAnkleRoll,
-
-    Joints::rHipRoll,       Joints::rHipPitch,     Joints::rKneePitch,
-    Joints::rAnklePitch,    Joints::rAnkleRoll,
-
-    Joints::rShoulderPitch, Joints::rShoulderRoll, Joints::rElbowYaw,
-    Joints::rElbowRoll,     Joints::rWristYaw,
-
-    Joints::lHand,          Joints::rHand};
+const int NaoProvider::jointMappings[Joints::numOfJoints] = {
+    HeadYaw,      HeadPitch,  LShoulderPitch, LShoulderRoll,  LElbowYaw,
+    LElbowRoll,   LWristYaw,  LHand,          RShoulderPitch, RShoulderRoll,
+    RElbowYaw,    RElbowRoll, RWristYaw,      RHand,          LHipYawPitch,
+    LHipRoll,     LHipPitch,  LKneePitch,     LAnklePitch,    LAnkleRoll,
+    RHipYawPitch, RHipRoll,   RHipPitch,      RKneePitch,     RAnklePitch,
+    RAnkleRoll};
 
 NaoProvider::NaoProvider() {
   receivedPacket = make_unique<unsigned char[]>(LOLAMSGLEN);
@@ -61,6 +82,19 @@ void NaoProvider::exec() {
 
 void NaoProvider::update() {
   getFrameInfo.time = timeWhenPacketReceived;
+  updateJointSensorData();
+}
+
+void NaoProvider::updateJointSensorData() {
+  for (int i = 0; i < Joints::numOfJoints; i++) {
+    getJointSensorData.angle[i] = lolaMsg.Position[jointMappings[i]];
+    getJointSensorData.current[i] = lolaMsg.Current[jointMappings[i]];
+    getJointSensorData.temperature[i] = lolaMsg.Temperature[jointMappings[i]];
+    getJointSensorData.status[i] =
+        lolaMsg.Status[jointMappings[i]] < JointSensorData::unknown
+            ? static_cast<JointSensorData::TemperatureStatus>(lolaMsg.Status[jointMappings[i]])
+            : JointSensorData::unknown;
+  }
 }
 
 void NaoProvider::waitLoLA() { receivePacket(); }
@@ -93,9 +127,16 @@ void NaoProvider::sendPacket() {
   setJoints();
   setLEDs();
 
-  sFrame["Position"] = position;
-  sFrame["Stiffness"] = stiffness;
-  sFrame["Chest"] = chest;
+  sFrame["Position"] = pack.Position;
+  sFrame["Stiffness"] = pack.Stiffness;
+  sFrame["REar"] = pack.REar;
+  sFrame["LEar"] = pack.LEar;
+  sFrame["Chest"] = pack.Chest;
+  sFrame["LEye"] = pack.LEye;
+  sFrame["REye"] = pack.REye;
+  sFrame["LFoot"] = pack.LFoot;
+  sFrame["RFoot"] = pack.RFoot;
+  sFrame["Skull"] = pack.Skull;
 
   vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
 
@@ -109,53 +150,63 @@ void NaoProvider::sendPacket() {
   assert(send_stat == sbuffer.size());
 }
 
-void NaoProvider::setJoints() { 
-  stiffness.fill(0);
-  }
+void NaoProvider::setJoints() {
+  pack.Stiffness.fill(0);
+
+  pack.Stiffness[0] = 0.3;
+  pack.Position[0] = 0.0;
+}
 
 void NaoProvider::setLEDs() {
-  chest[0] = 0;
-  chest[1] = 1;
-  chest[2] = 0;
+  pack.Chest[0] = 0;
+  pack.Chest[1] = 1;
+  pack.Chest[2] = 0;
+
+  pack.LEar.fill(1);
+  pack.REar.fill(1);
+  pack.LEye.fill(1);
+  pack.REye.fill(1);
+  pack.Skull.fill(1);
 }
 
-void NaoProvider::disableMotor() {
-  json sFrame;
-
-  stiffness.fill(0.0);
-  sFrame["Stiffness"] = stiffness;
-
-  vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
-
-  assert(sbuffer.size() < MAXSENDMSGLEN);
-  for (size_t i = 0; i < sbuffer.size(); i++) {
-    packetToSend[i] = (unsigned char)sbuffer[i];
-  }
-
-  size_t send_stat = send(socket, reinterpret_cast<char *>(packetToSend.get()),
-                          sbuffer.size(), 0);
-  assert(send_stat == sbuffer.size());
-}
+void NaoProvider::disableMotor() { pack.Stiffness.fill(0); }
 
 void NaoProvider::disableLED() {
-  json sFrame;
-
-  chest.fill(0);
-  sFrame["Chest"] = chest;
-
-  vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
-
-  assert(sbuffer.size() < MAXSENDMSGLEN);
-  for (size_t i = 0; i < sbuffer.size(); i++) {
-    packetToSend[i] = (unsigned char)sbuffer[i];
-  }
-
-  size_t send_stat = send(socket, reinterpret_cast<char *>(packetToSend.get()),
-                          sbuffer.size(), 0);
-  assert(send_stat == sbuffer.size());
+  pack.REar.fill(0);
+  pack.LEar.fill(0);
+  pack.Chest.fill(0);
+  pack.LEye.fill(0);
+  pack.REye.fill(0);
+  pack.LFoot.fill(0);
+  pack.RFoot.fill(0);
+  pack.Skull.fill(0);
 }
 
 void NaoProvider::disableActuator() {
   disableMotor();
   disableLED();
+
+  json sFrame;
+
+  sFrame["Position"] = pack.Position;
+  sFrame["Stiffness"] = pack.Stiffness;
+  sFrame["REar"] = pack.REar;
+  sFrame["LEar"] = pack.LEar;
+  sFrame["Chest"] = pack.Chest;
+  sFrame["LEye"] = pack.LEye;
+  sFrame["REye"] = pack.REye;
+  sFrame["LFoot"] = pack.LFoot;
+  sFrame["RFoot"] = pack.RFoot;
+  sFrame["Skull"] = pack.Skull;
+
+  vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
+
+  assert(sbuffer.size() < MAXSENDMSGLEN);
+  for (size_t i = 0; i < sbuffer.size(); i++) {
+    packetToSend[i] = (unsigned char)sbuffer[i];
+  }
+
+  size_t send_stat = send(socket, reinterpret_cast<char *>(packetToSend.get()),
+                          sbuffer.size(), 0);
+  assert(send_stat == sbuffer.size());
 }
