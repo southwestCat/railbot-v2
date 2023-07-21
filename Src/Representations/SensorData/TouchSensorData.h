@@ -8,6 +8,7 @@
 #pragma once
 
 #include <array>
+#include <nlohmann/json.hpp>
 
 struct TouchSensorData {
   enum Touch {
@@ -32,3 +33,6 @@ struct TouchSensorData {
 
   TouchSensorData();
 };
+
+void to_json(nlohmann::json& j, const TouchSensorData& v);
+void from_json(const nlohmann::json& j, TouchSensorData& v);
