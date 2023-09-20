@@ -27,4 +27,5 @@ void Bb::makeR() {
   _MAKE(InertialSensorData);
   _MAKE(FSRSensorData);
   _MAKE(TouchSensorData);
+  _MAKE(JointRequest);
 }

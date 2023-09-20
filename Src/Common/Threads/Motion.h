@@ -10,15 +10,18 @@
 #include <memory>
 
 #include "Modules/Infrastructure/NaoProvider/NaoProvider.h"
+#include "Modules/MotionControl/WalkingEngine/WalkingEngine.h"
 #include "ThreadBase.h"
 
 class Motion : public ThreadBase {
  public:
   Motion(BlackboardThread *bbt) : ThreadBase(bbt) {
     naoProvider = std::make_unique<NaoProvider>();
+    walkingEngine = std::make_unique<WalkingEngine>();
   }
   void tick();
 
  private:
   std::unique_ptr<NaoProvider> naoProvider;
+  std::unique_ptr<WalkingEngine> walkingEngine;
 };

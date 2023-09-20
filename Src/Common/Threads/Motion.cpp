@@ -7,4 +7,7 @@
  */
 #include "Motion.h"
 
-void Motion::tick() { naoProvider->exec(); }
+void Motion::tick() { 
+  naoProvider->exec();
+  walkingEngine->exec();
+}
