@@ -215,9 +215,6 @@ void NaoProvider::sendPacket() {
 
 void NaoProvider::setJoints() {
   pack.Stiffness.fill(0);
-
-  pack.Stiffness[0] = 0.1;
-  pack.Position[0] = 0.0;
 }
 
 void NaoProvider::setLEDs() {
