@@ -8,10 +8,16 @@
 #pragma once
 
 #include <memory>
+#include "TrippleBuffer.h"
+#include "Blackboard.h"
+
+#define _DECLARE_TRIBUF(x) TrippleBuffer<x> the##x
 
 struct CognitionWriteMotionRead {};
 
-struct MotionWriteCognitionRead {};
+struct MotionWriteCognitionRead {
+  _DECLARE_TRIBUF(FrameInfo);
+};
 struct MotionWriteUpperRead {};
 struct MotionWriteLowerRead {};
 
@@ -21,10 +27,12 @@ struct LowerWriteCognitionRead {};
 
 struct BlackboardThread {
   BlackboardThread();
-  std::unique_ptr<CognitionWriteMotionRead> CWMR;
+  // std::unique_ptr<CognitionWriteMotionRead> CWMR;
+  // std::unique_ptr<MotionWriteCognitionRead> MWCR;
+  // std::unique_ptr<MotionWriteUpperRead> MWUR;
+  // std::unique_ptr<MotionWriteLowerRead> MWLR;
+  // std::unique_ptr<UpperWriteCognitionRead> UWCR;
+  // std::unique_ptr<LowerWriteCognitionRead> LWCR;
+
   std::unique_ptr<MotionWriteCognitionRead> MWCR;
-  std::unique_ptr<MotionWriteUpperRead> MWUR;
-  std::unique_ptr<MotionWriteLowerRead> MWLR;
-  std::unique_ptr<UpperWriteCognitionRead> UWCR;
-  std::unique_ptr<LowerWriteCognitionRead> LWCR;
 };

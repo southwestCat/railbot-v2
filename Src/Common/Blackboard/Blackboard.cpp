@@ -7,7 +7,7 @@
  */
 #include "Blackboard.h"
 
-static Bb *theInstance = nullptr;
+static thread_local Bb *theInstance = nullptr;
 
 Bb::Bb() {
   if (theInstance != nullptr) return;

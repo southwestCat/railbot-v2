@@ -7,7 +7,26 @@
  */
 #include "Motion.h"
 
-void Motion::tick() { 
+void Motion::tick() {
+  beforeFrame();
+  beforeModules();
+  updateModules();
+  afterModules();
+  afterFrame();
+}
+
+void Motion::updateModules() {
   naoProvider->exec();
   walkingEngine->exec();
 }
+
+void Motion::beforeFrame() {
+}
+
+void Motion::afterFrame() {
+  bbt->MWCR->theFrameInfo.write(*bb->getFrameInfo.get());
+}
+
+void Motion::beforeModules() {}
+
+void Motion::afterModules() {}

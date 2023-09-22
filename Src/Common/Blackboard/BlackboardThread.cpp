@@ -10,10 +10,12 @@
 using namespace std;
 
 BlackboardThread::BlackboardThread() {
-  CWMR = make_unique<CognitionWriteMotionRead>();
+  // CWMR = make_unique<CognitionWriteMotionRead>();
+  // MWCR = make_unique<MotionWriteCognitionRead>();
+  // MWUR = make_unique<MotionWriteUpperRead>();
+  // MWLR = make_unique<MotionWriteLowerRead>();
+  // UWCR = make_unique<UpperWriteCognitionRead>();
+  // LWCR = make_unique<LowerWriteCognitionRead>();
+
   MWCR = make_unique<MotionWriteCognitionRead>();
-  MWUR = make_unique<MotionWriteUpperRead>();
-  MWLR = make_unique<MotionWriteLowerRead>();
-  UWCR = make_unique<UpperWriteCognitionRead>();
-  LWCR = make_unique<LowerWriteCognitionRead>();
 }

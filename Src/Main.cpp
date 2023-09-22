@@ -33,27 +33,27 @@ int main() {
   signal(SIGTERM, sighandlerShutdown);
   signal(SIGINT, sighandlerShutdown);
 
-  BlackboardThread *bbt = new BlackboardThread;
+  // BlackboardThread *bbt = new BlackboardThread;
+  std::unique_ptr<BlackboardThread> bbt;
+  bbt = std::make_unique<BlackboardThread>();
 
   ThreadManager motion("Motion", 0);
-  motion.run<Motion>(bbt);
+  motion.run<Motion>(bbt.get());
 
   ThreadManager upper("Upper", 33);
-  upper.run<Upper>(bbt);
+  upper.run<Upper>(bbt.get());
   usleep(15000);
 
   ThreadManager lower("Lower", 33);
-  lower.run<Lower>(bbt);
+  lower.run<Lower>(bbt.get());
   usleep(15000);
 
   ThreadManager cognition("Cognition", 15);
-  cognition.run<Cognition>(bbt);  
+  cognition.run<Cognition>(bbt.get());  
 
   while (run) {
     pause();
   }
-
-  delete bbt;
 
   return 0;
 }

@@ -9,8 +9,18 @@
 
 #include "ThreadBase.h"
 
+#include "Modules/BehaviorControl/LEDHandler/LEDHandler.h"
+
 class Cognition : public ThreadBase {
  public:
   Cognition(BlackboardThread *bbt) : ThreadBase(bbt) {}
   void tick();
+  void updateModules();
+  void beforeFrame();
+  void beforeModules();
+  void afterModules();
+  void afterFrame();
+
+ private:
+  LEDHandler ledHandler;
 };

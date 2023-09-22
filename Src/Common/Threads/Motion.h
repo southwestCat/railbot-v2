@@ -20,6 +20,11 @@ class Motion : public ThreadBase {
     walkingEngine = std::make_unique<WalkingEngine>();
   }
   void tick();
+  void updateModules();
+  void beforeFrame();
+  void beforeModules();
+  void afterModules();
+  void afterFrame();
 
  private:
   std::unique_ptr<NaoProvider> naoProvider;
