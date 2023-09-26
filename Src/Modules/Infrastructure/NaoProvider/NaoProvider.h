@@ -16,6 +16,9 @@
 
 class NaoProvider {
  private:
+  _USE(LEDRequest);
+
+ private:
   _MODIFY(FrameInfo);
   _MODIFY(JointSensorData);
   _MODIFY(BatterySensorData);
@@ -50,7 +53,7 @@ class NaoProvider {
   // Data received by LoLA client (This program sent this data to LoLA).
   struct LoLAReceivedData {
     std::array<float, NJoint> Position;
-    std::array<float, NJoint> Stiffness; // [0, 1]
+    std::array<float, NJoint> Stiffness;  // [0, 1]
     std::array<float, NEar> REar;
     std::array<float, NEar> LEar;
     std::array<float, NChest> Chest;
@@ -62,7 +65,10 @@ class NaoProvider {
     std::array<bool, NSonar> Sonar;
   } pack;
 
-  static const int jointMappings[Joints::numOfJoints]; /**< Mappings from LoLA's joint indices to request joint indices. */
+  static const int
+      jointMappings[Joints::numOfJoints]; /**< Mappings from LoLA's joint
+                                             indices to request joint indices.
+                                           */
   static const int touchMappings[TouchSensorData::numOfTouchs];
   unsigned timeWhenPacketReceived = 0;
 
