@@ -18,4 +18,5 @@ BlackboardThread::BlackboardThread() {
   // LWCR = make_unique<LowerWriteCognitionRead>();
 
   MWCR = make_unique<MotionWriteCognitionRead>();
+  CWMR = make_unique<CognitionWriteMotionRead>();
 }

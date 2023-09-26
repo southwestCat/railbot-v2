@@ -28,4 +28,5 @@ void Bb::makeR() {
   _MAKE(FSRSensorData);
   _MAKE(TouchSensorData);
   _MAKE(JointRequest);
+  _MAKE(LEDRequest);
 }

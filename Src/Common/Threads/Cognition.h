@@ -10,6 +10,7 @@
 #include "ThreadBase.h"
 
 #include "Modules/BehaviorControl/LEDHandler/LEDHandler.h"
+#include "Modules/BehaviorControl/ActionHandler/ActionHandler.h"
 
 class Cognition : public ThreadBase {
  public:
@@ -23,4 +24,5 @@ class Cognition : public ThreadBase {
 
  private:
   LEDHandler ledHandler;
+  ActionHandler actionHandler;
 };

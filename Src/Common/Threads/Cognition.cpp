@@ -17,6 +17,7 @@ void Cognition::tick() {
 
 void Cognition::updateModules() {
   ledHandler.exec();
+  actionHandler.exec();
 }
 void Cognition::beforeFrame() {
   *bb->getFrameInfo.get() = bbt->MWCR->theFrameInfo.read();
@@ -24,4 +25,6 @@ void Cognition::beforeFrame() {
 }
 void Cognition::beforeModules() {}
 void Cognition::afterModules() {}
-void Cognition::afterFrame() {}
+void Cognition::afterFrame() {
+  bbt->CWMR->theLEDRequest.write(*bb->getLEDRequest.get());
+}

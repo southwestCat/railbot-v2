@@ -21,6 +21,7 @@ void Motion::updateModules() {
 }
 
 void Motion::beforeFrame() {
+  *bb->getLEDRequest.get() = bbt->CWMR->theLEDRequest.read();
 }
 
 void Motion::afterFrame() {

@@ -218,9 +218,9 @@ void NaoProvider::setJoints() {
 }
 
 void NaoProvider::setLEDs() {
-  pack.Chest[0] = 0;
-  pack.Chest[1] = 1;
-  pack.Chest[2] = 0;
+  pack.Chest[0] = 1;  // red
+  pack.Chest[1] = 0;  // green
+  pack.Chest[2] = 0;  // blue
 
   pack.LEar.fill(1);
   pack.REar.fill(1);

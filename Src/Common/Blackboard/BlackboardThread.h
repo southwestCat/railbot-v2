@@ -13,7 +13,9 @@
 
 #define _DECLARE_TRIBUF(x) TrippleBuffer<x> the##x
 
-struct CognitionWriteMotionRead {};
+struct CognitionWriteMotionRead {
+  _DECLARE_TRIBUF(LEDRequest);
+};
 
 struct MotionWriteCognitionRead {
   _DECLARE_TRIBUF(FrameInfo);
@@ -36,4 +38,5 @@ struct BlackboardThread {
   // std::unique_ptr<LowerWriteCognitionRead> LWCR;
 
   std::unique_ptr<MotionWriteCognitionRead> MWCR;
+  std::unique_ptr<CognitionWriteMotionRead> CWMR;
 };

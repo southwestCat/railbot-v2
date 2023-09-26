@@ -30,19 +30,19 @@ class TrippleBuffer {
     
     assert(writting < NUM);
     
-    *data[writting] = t;
+    *data[writting].get() = t;
     std::atomic_thread_fence(std::memory_order_acq_rel);
     newest = writting;
 
     std::atomic_thread_fence(std::memory_order_release);
   }
 
-  T read() {
+  const T& read() {
     std::atomic_thread_fence(std::memory_order_acquire);
     reading = newest;
     std::atomic_thread_fence(std::memory_order_acq_rel);
     assert(data[reading] != nullptr);
-    return *data[reading];
+    return *data[reading].get();
   }
 
   friend std::ostream& operator<<(std::ostream& o, const TrippleBuffer& t) {
