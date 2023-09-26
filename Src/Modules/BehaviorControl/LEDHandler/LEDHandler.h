@@ -12,6 +12,7 @@
 class LEDHandler {
  private:
   _USE(FrameInfo);
+  _USE(TouchSensorData);
 
  public:
   void exec();

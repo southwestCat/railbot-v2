@@ -11,5 +11,5 @@
 using std::cout;
 using std::endl;
 void LEDHandler::exec() {
-  cout << getFrameInfo.time << endl;
+  
 }
