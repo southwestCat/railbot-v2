@@ -6,6 +6,16 @@
  *
  */
 #include "Motion.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+Motion::Motion(BlackboardThread *bbt) : ThreadBase(bbt) {
+  naoProvider = std::make_unique<NaoProvider>();
+  keyFrameMotionEngine = std::make_unique<KeyFrameMotionEngine>();
+  motionCombinator = std::make_unique<MotionCombinator>();
+}
 
 void Motion::tick() {
   beforeFrame();
@@ -17,16 +27,19 @@ void Motion::tick() {
 
 void Motion::updateModules() {
   naoProvider->exec();
-  walkingEngine->exec();
+  keyFrameMotionEngine->exec();
+  motionCombinator->exec();
 }
 
 void Motion::beforeFrame() {
   *bb->getLEDRequest.get() = bbt->CWMR->theLEDRequest.read();
+  *bb->getRobotStates.get() = bbt->CWMR->theRobotStates.read();
 }
 
 void Motion::afterFrame() {
   bbt->MWCR->theFrameInfo.write(*bb->getFrameInfo.get());
   bbt->MWCR->theTouchSensorData.write(*bb->getTouchSensorData.get());
+  
 }
 
 void Motion::beforeModules() {}

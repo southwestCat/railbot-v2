@@ -14,7 +14,7 @@ using std::endl;
 
 void RobotStateHandler::exec() {
   if (getTouchSensorData.pressed[TouchSensorData::chest]) {
-    if (getFrameInfo.getTimeSince(chestPressed) > ChestButtonPressedThreshold) {
+    if (getFrameInfo.getTimeSince(chestPressed) > ChestButtonPressedThreshold && canChange()) {
       changeState();
       chestPressed = getFrameInfo.time;
     }
@@ -23,6 +23,15 @@ void RobotStateHandler::exec() {
   }
 }
 
+bool RobotStateHandler::canChange() {
+  return getRobotStates.state == RobotStates::initial || 
+    getRobotStates.state == RobotStates::standhigh ||
+    getRobotStates.state == RobotStates::stand ||
+    getRobotStates.state == RobotStates::walk;
+}
+
 void RobotStateHandler::changeState() {
-  cout << "In changeState().\n";
+  if (getRobotStates.state == RobotStates::initial) {
+    getRobotStates.state = RobotStates::standing;
+  }
 }

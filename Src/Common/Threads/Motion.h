@@ -10,15 +10,15 @@
 #include <memory>
 
 #include "Modules/Infrastructure/NaoProvider/NaoProvider.h"
+#include "Modules/MotionControl/MotionCombinator/MotionCombinator.h"
+#include "Modules/MotionControl/KeyFrameMotionEngine/KeyFrameMotionEngine.h"
 #include "Modules/MotionControl/WalkingEngine/WalkingEngine.h"
 #include "ThreadBase.h"
 
 class Motion : public ThreadBase {
  public:
-  Motion(BlackboardThread *bbt) : ThreadBase(bbt) {
-    naoProvider = std::make_unique<NaoProvider>();
-    walkingEngine = std::make_unique<WalkingEngine>();
-  }
+  Motion(BlackboardThread *bbt);
+
   void tick();
   void updateModules();
   void beforeFrame();
@@ -28,5 +28,6 @@ class Motion : public ThreadBase {
 
  private:
   std::unique_ptr<NaoProvider> naoProvider;
-  std::unique_ptr<WalkingEngine> walkingEngine;
+  std::unique_ptr<MotionCombinator> motionCombinator;
+  std::unique_ptr<KeyFrameMotionEngine> keyFrameMotionEngine;
 };

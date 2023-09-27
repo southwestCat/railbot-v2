@@ -1,7 +1,7 @@
 /*
  * @Author: xuzihan xuzihan@tongji.edu.cn
  * @Date: 2023-09-27 09:22:40
- * @FilePath:
+ * @FilePath: /railbot-v2/Src/Modules/BehaviorControl/RobotStateHandler/RobotStateHandler.h
  * /railbot-v2/Src/Modules/BehaviorControl/RobotStateHandler/RobotStateHandler.h
  * @Description: Handle states such as initial, standing, stand, walk, etc.
  *
@@ -23,6 +23,7 @@ class RobotStateHandler {
 
  private:
   void changeState();
+  bool canChange();
 
  private:
   static constexpr int ChestButtonPressedThreshold = 150;

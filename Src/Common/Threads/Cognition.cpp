@@ -32,4 +32,5 @@ void Cognition::beforeModules() {}
 void Cognition::afterModules() {}
 void Cognition::afterFrame() {
   bbt->CWMR->theLEDRequest.write(*bb->getLEDRequest.get());
+  bbt->CWMR->theRobotStates.write(*bb->getRobotStates.get());
 }

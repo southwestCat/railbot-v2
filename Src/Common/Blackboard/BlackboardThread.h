@@ -15,6 +15,7 @@
 
 struct CognitionWriteMotionRead {
   _DECLARE_TRIBUF(LEDRequest);
+  _DECLARE_TRIBUF(RobotStates);
 };
 
 struct MotionWriteCognitionRead {
