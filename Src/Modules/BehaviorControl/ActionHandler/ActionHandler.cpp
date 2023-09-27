@@ -14,12 +14,5 @@ using std::cout;
 using std::endl;
 
 void ActionHandler::exec() {
-  if (getTouchSensorData.pressed[TouchSensorData::chest]) {
-    if (getFrameInfo.getTimeSince(chestPressed) > ChestButtonPressedThreshold) {
-      cout << "Chest pressed.\n";
-      chestPressed = getFrameInfo.time;
-    }
-  } else {
-    chestPressed = getFrameInfo.time;
-  }
+  
 }

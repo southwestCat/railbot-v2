@@ -7,6 +7,11 @@
  */
 #include "Cognition.h"
 
+Cognition::Cognition(BlackboardThread *bbt) : ThreadBase(bbt) {
+  ledHandler = std::make_unique<LEDHandler>();
+  robotStateHandler = std::make_unique<RobotStateHandler>();
+}
+
 void Cognition::tick() {
   beforeFrame();
   beforeModules();
@@ -16,8 +21,8 @@ void Cognition::tick() {
 }
 
 void Cognition::updateModules() {
-  ledHandler.exec();
-  actionHandler.exec();
+  ledHandler->exec();
+  robotStateHandler->exec();
 }
 void Cognition::beforeFrame() {
   *bb->getFrameInfo.get() = bbt->MWCR->theFrameInfo.read();

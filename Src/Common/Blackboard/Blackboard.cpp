@@ -29,4 +29,5 @@ void Bb::makeR() {
   _MAKE(TouchSensorData);
   _MAKE(JointRequest);
   _MAKE(LEDRequest);
+  _MAKE(RobotStates);
 }

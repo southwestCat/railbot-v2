@@ -10,6 +10,6 @@
 
 using std::cout;
 using std::endl;
+
 void LEDHandler::exec() {
-  getLEDRequest.ledStates[LEDRequest::chestBlue] = LEDRequest::on;
 }

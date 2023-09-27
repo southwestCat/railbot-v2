@@ -5,6 +5,7 @@
  * /railbot-v2/Src/Modules/BehaviorControl/ActionHandler/ActionHandler.h
  * /railbot-v2/Src/Modules/BehaviorControl/ActionHandler/ActionHandler.h
  * /railbot-v2/Src/Modules/BehaviorControl/ActionHandler/ActionHandler.h
+ * /railbot-v2/Src/Modules/BehaviorControl/ActionHandler/ActionHandler.h
  * @Description:
  *
  */
@@ -17,10 +18,11 @@ class ActionHandler {
   _USE(FrameInfo);
   _USE(TouchSensorData);
 
+
  public:
   void exec();
 
  private:
-  static constexpr int ChestButtonPressedThreshold = 100;
+  static constexpr int ChestButtonPressedThreshold = 150;
   unsigned chestPressed;
 };

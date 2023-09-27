@@ -11,10 +11,11 @@
 
 #include "Modules/BehaviorControl/LEDHandler/LEDHandler.h"
 #include "Modules/BehaviorControl/ActionHandler/ActionHandler.h"
+#include "Modules/BehaviorControl/RobotStateHandler/RobotStateHandler.h"
 
 class Cognition : public ThreadBase {
  public:
-  Cognition(BlackboardThread *bbt) : ThreadBase(bbt) {}
+  Cognition(BlackboardThread *bbt);
   void tick();
   void updateModules();
   void beforeFrame();
@@ -23,6 +24,6 @@ class Cognition : public ThreadBase {
   void afterFrame();
 
  private:
-  LEDHandler ledHandler;
-  ActionHandler actionHandler;
+  std::unique_ptr<LEDHandler> ledHandler;
+  std::unique_ptr<RobotStateHandler> robotStateHandler;
 };

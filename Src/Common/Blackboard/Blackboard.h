@@ -17,6 +17,7 @@
 #include "Representations/SensorData/TouchSensorData.h"
 #include "Representations/Infrastructure/JointRequest.h"
 #include "Representations/Infrastructure/LEDRequest.h"
+#include "Representations/Infrastructure/RobotStates.h"
 
 #define _USE(R) const R &get##R = *(Bb::instance().get##R.get())
 #define _MODIFY(R) R &get##R = *(Bb::instance().get##R.get())
@@ -39,6 +40,7 @@ class Bb {
   _DECLARE(TouchSensorData);
   _DECLARE(JointRequest);
   _DECLARE(LEDRequest);
+  _DECLARE(RobotStates);
 
  private:
   void makeR();
