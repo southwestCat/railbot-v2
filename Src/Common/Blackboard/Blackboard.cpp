@@ -36,4 +36,5 @@ void Bb::makeR() {
   _MAKE(MassCalibration);
   _MAKE(JointAngles);
   _MAKE(RobotModel);
+  _MAKE(StiffnessSettings);
 }

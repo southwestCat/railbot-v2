@@ -11,12 +11,13 @@
 
 #include "Common/Motion/SensorData.h"
 #include "Common/RobotParts/Joints.h"
+#include "Common/Math/Angle.h"
 
 struct JointAngles {
   static constexpr float off = SensorData::off;
   static constexpr float ignore = SensorData::ignore;
 
   JointAngles();
-  std::array<float, Joints::numOfJoints> angles;
+  std::array<Angle, Joints::numOfJoints> angles;
   unsigned timestamp = 0;
 };

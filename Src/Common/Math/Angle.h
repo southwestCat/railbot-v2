@@ -9,6 +9,7 @@
 
 #include "Constants.h"
 #include <cmath>
+#include <nlohmann/json.hpp>
 
 template <typename V>
 constexpr V toDegrees(V angle) { return angle * V(180.f / pi); }
@@ -96,3 +97,6 @@ V Angle::normalize(V data)
                                                                 : data;
     }
 }
+
+void to_json(nlohmann::json &j, const Angle &v);
+void from_json(const nlohmann::json &j, Angle &v);

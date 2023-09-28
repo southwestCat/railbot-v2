@@ -52,6 +52,7 @@ class Bb {
   _DECLARE(MassCalibration);
   _DECLARE(JointAngles);
   _DECLARE(RobotModel);
+  _DECLARE(StiffnessSettings);
 
  private:
   void makeR();
