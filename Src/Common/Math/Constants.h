@@ -5,24 +5,46 @@
  * @Description:
  *
  */
+
 #pragma once
 
+#include <Eigen/Eigen>
+
 namespace Constants {
+// https://en.wikipedia.org/wiki/Gravitational_acceleration
+constexpr float g = 9806.65f;         ///< Gravity of the earth in mm/s^2
+constexpr float g_1000 = g / 1000.f;  ///< Gravity of earth in m/s^2
 
-  // https://en.wikipedia.org/wiki/Gravitational_acceleration
-  constexpr float g = 9.80665f; // conventional standard value
-  constexpr float g1000 = 1000.f * g;
- 
-  //-> Value copy from cmath
-  //-> More accuracy value can refer to std::numbers::pi_v<long double>
-  constexpr float e = 2.7182818284590452354f;	/* e */
-  constexpr float pi = 3.14159265358979323846f;	/* pi */
-  constexpr float pi2 = 2.f * pi;
+constexpr float e = 2.71828182845902353602874713527f;  ///< Euler's number
 
-  //-> Measured from LoLA's communication frequency
-  // Mostly 12ms, occasionally 13ms.
-  constexpr float motionCycleTime = 0.012f; // second
-}
+/** @name constants for some often used angles */
+///@{
+/** constant for a half circle*/
+constexpr float pi = 3.1415926535897932384626433832795f;
+/** constant for a full circle*/
+constexpr float pi2 = 2.f * pi;
+/** constant for three quarter circle*/
+constexpr float pi3_2 = 1.5f * pi;
+/** constant for a quarter circle*/
+constexpr float pi_2 = pi / 2.f;
+/** constant for a 1/8 circle*/
+constexpr float pi_4 = pi / 4.f;
+/** constant for a 1/16 circle*/
+constexpr float pi_8 = pi / 8.f;
+/** constant for a 3/8 circle*/
+constexpr float pi3_4 = pi * 0.75f;
+///@}
+
+constexpr float motionCycleTime = 12.f / 1000.f;
+
+const Eigen::Vector3f e_z = Eigen::Vector3f(0.f, 0.f, 1.f);
+const Eigen::Vector3f gravity = Eigen::Vector3f(0.f, 0.f, -g);
+};  // namespace Constants
 
 using Constants::pi;
 using Constants::pi2;
+using Constants::pi3_2;
+using Constants::pi3_4;
+using Constants::pi_2;
+using Constants::pi_4;
+using Constants::pi_8;

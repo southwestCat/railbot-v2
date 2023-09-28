@@ -30,4 +30,6 @@ void Bb::makeR() {
   _MAKE(JointRequest);
   _MAKE(LEDRequest);
   _MAKE(RobotStates);
+  _MAKE(KeyFrameEngineOutput);
+  _MAKE(LogJointRequest);
 }

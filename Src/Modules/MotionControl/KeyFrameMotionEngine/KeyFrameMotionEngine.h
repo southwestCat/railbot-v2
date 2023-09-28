@@ -16,7 +16,7 @@ class KeyFrameMotionEngine {
   _USE(RobotStates);
 
  private:
-  _MODIFY(JointRequest);
+  _MODIFY(KeyFrameEngineOutput);
 
  public:
   void exec();

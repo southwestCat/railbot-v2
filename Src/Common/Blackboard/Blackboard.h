@@ -18,6 +18,7 @@
 #include "Representations/Infrastructure/JointRequest.h"
 #include "Representations/Infrastructure/LEDRequest.h"
 #include "Representations/Infrastructure/RobotStates.h"
+#include "Representations/MotionControl/KeyFrameEngineOutput.h"
 
 #define _USE(R) const R &get##R = *(Bb::instance().get##R.get())
 #define _MODIFY(R) R &get##R = *(Bb::instance().get##R.get())
@@ -41,6 +42,8 @@ class Bb {
   _DECLARE(JointRequest);
   _DECLARE(LEDRequest);
   _DECLARE(RobotStates);
+  _DECLARE(KeyFrameEngineOutput);
+  _DECLARE(LogJointRequest);
 
  private:
   void makeR();
