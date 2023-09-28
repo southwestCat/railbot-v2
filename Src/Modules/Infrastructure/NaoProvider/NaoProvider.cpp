@@ -16,7 +16,6 @@
 #include "Common/Time/Time.h"
 
 using json = nlohmann::json;
-using namespace std;
 
 // Joint order in LoLA data
 enum JointOrdLoLA {
@@ -79,8 +78,8 @@ const int NaoProvider::touchMappings[TouchSensorData::numOfTouchs] = {
     RFootRight, RHandBack, RHandLeft,  RHandRight};
 
 NaoProvider::NaoProvider() {
-  receivedPacket = make_unique<unsigned char[]>(LOLAMSGLEN);
-  packetToSend = make_unique<unsigned char[]>(MAXSENDMSGLEN);
+  receivedPacket = std::make_unique<unsigned char[]>(LOLAMSGLEN);
+  packetToSend = std::make_unique<unsigned char[]>(MAXSENDMSGLEN);
 
   socket = ::socket(AF_UNIX, SOCK_STREAM, 0);
   sockaddr_un address;
@@ -201,7 +200,7 @@ void NaoProvider::sendPacket() {
   sFrame["RFoot"] = pack.RFoot;
   sFrame["Skull"] = pack.Skull;
 
-  vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
+  std::vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
 
   assert(sbuffer.size() < MAXSENDMSGLEN);
   for (size_t i = 0; i < sbuffer.size(); i++) {
@@ -259,7 +258,7 @@ void NaoProvider::disableActuator() {
   sFrame["RFoot"] = pack.RFoot;
   sFrame["Skull"] = pack.Skull;
 
-  vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
+  std::vector<uint8_t> sbuffer = json::to_msgpack(sFrame);
 
   assert(sbuffer.size() < MAXSENDMSGLEN);
   for (size_t i = 0; i < sbuffer.size(); i++) {

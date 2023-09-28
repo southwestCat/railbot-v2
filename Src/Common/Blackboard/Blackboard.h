@@ -9,16 +9,20 @@
 
 #include <memory>
 
+#include "Representations/Configuration/MassCalibration.h"
+#include "Representations/Configuration/RobotDimensions.h"
 #include "Representations/Infrastructure/FrameInfo.h"
-#include "Representations/SensorData/BatterySensorData.h"
-#include "Representations/SensorData/FsrSensorData.h"
-#include "Representations/SensorData/InertialSensorData.h"
-#include "Representations/SensorData/JointSensorData.h"
-#include "Representations/SensorData/TouchSensorData.h"
 #include "Representations/Infrastructure/JointRequest.h"
 #include "Representations/Infrastructure/LEDRequest.h"
 #include "Representations/Infrastructure/RobotStates.h"
 #include "Representations/MotionControl/KeyFrameEngineOutput.h"
+#include "Representations/Sensing/RobotModel.h"
+#include "Representations/SensorData/BatterySensorData.h"
+#include "Representations/SensorData/FsrSensorData.h"
+#include "Representations/SensorData/InertialSensorData.h"
+#include "Representations/SensorData/JointAngles.h"
+#include "Representations/SensorData/JointSensorData.h"
+#include "Representations/SensorData/TouchSensorData.h"
 
 #define _USE(R) const R &get##R = *(Bb::instance().get##R.get())
 #define _MODIFY(R) R &get##R = *(Bb::instance().get##R.get())
@@ -44,6 +48,10 @@ class Bb {
   _DECLARE(RobotStates);
   _DECLARE(KeyFrameEngineOutput);
   _DECLARE(LogJointRequest);
+  _DECLARE(RobotDimensions);
+  _DECLARE(MassCalibration);
+  _DECLARE(JointAngles);
+  _DECLARE(RobotModel);
 
  private:
   void makeR();

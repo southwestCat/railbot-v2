@@ -32,4 +32,8 @@ void Bb::makeR() {
   _MAKE(RobotStates);
   _MAKE(KeyFrameEngineOutput);
   _MAKE(LogJointRequest);
+  _MAKE(RobotDimensions);
+  _MAKE(MassCalibration);
+  _MAKE(JointAngles);
+  _MAKE(RobotModel);
 }

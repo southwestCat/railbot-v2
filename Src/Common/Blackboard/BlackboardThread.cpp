@@ -7,7 +7,7 @@
  */
 #include "BlackboardThread.h"
 
-using namespace std;
+using std::make_unique;
 
 BlackboardThread::BlackboardThread() {
   // CWMR = make_unique<CognitionWriteMotionRead>();

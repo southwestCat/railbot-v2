@@ -9,10 +9,12 @@
 
 #include <memory>
 
+#include "Modules/Infrastructure/JointAnglesProvider/JointAnglesProvider.h"
 #include "Modules/Infrastructure/NaoProvider/NaoProvider.h"
-#include "Modules/MotionControl/MotionCombinator/MotionCombinator.h"
 #include "Modules/MotionControl/KeyFrameMotionEngine/KeyFrameMotionEngine.h"
+#include "Modules/MotionControl/MotionCombinator/MotionCombinator.h"
 #include "Modules/MotionControl/WalkingEngine/WalkingEngine.h"
+#include "Modules/Sensing/RobotModelProvider/RobotModelProvider.h"
 #include "ThreadBase.h"
 
 class Motion : public ThreadBase {
@@ -30,4 +32,6 @@ class Motion : public ThreadBase {
   std::unique_ptr<NaoProvider> naoProvider;
   std::unique_ptr<MotionCombinator> motionCombinator;
   std::unique_ptr<KeyFrameMotionEngine> keyFrameMotionEngine;
+  std::unique_ptr<JointAnglesProvider> jointAnglesProvider;
+  std::unique_ptr<RobotModelProvider> robotModelProvider;
 };

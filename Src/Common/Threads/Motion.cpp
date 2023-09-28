@@ -15,6 +15,8 @@ Motion::Motion(BlackboardThread *bbt) : ThreadBase(bbt) {
   naoProvider = std::make_unique<NaoProvider>();
   keyFrameMotionEngine = std::make_unique<KeyFrameMotionEngine>();
   motionCombinator = std::make_unique<MotionCombinator>();
+  jointAnglesProvider = std::make_unique<JointAnglesProvider>();
+  robotModelProvider = std::make_unique<RobotModelProvider>();
 }
 
 void Motion::tick() {
@@ -26,8 +28,15 @@ void Motion::tick() {
 }
 
 void Motion::updateModules() {
+  // FrameInfo, *SensorData
   naoProvider->exec();
+  // JointAngles
+  jointAnglesProvider->exec();
+  // RobotModel
+  robotModelProvider->exec();
+  // KeyFrameMotionOutput
   keyFrameMotionEngine->exec();
+  // JointRequest
   motionCombinator->exec();
 }
 

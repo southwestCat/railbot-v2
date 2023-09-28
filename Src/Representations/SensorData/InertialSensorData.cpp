@@ -8,8 +8,8 @@
 #include "InertialSensorData.h"
 #include <array>
 
-using namespace std;
 using json = nlohmann::json;
+using std::array;
 
 void to_json(nlohmann::json &j, const InertialSensorData &v) {
   j = json{{"gyro", v.gyro}, {"acc", v.acc}, {"angle", v.angle}};

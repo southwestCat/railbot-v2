@@ -8,8 +8,6 @@
 #include "WalkingEngine.h"
 #include <iostream>
 
-using namespace std;
-
 void WalkingEngine::exec() {
   
 }

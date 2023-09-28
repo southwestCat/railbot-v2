@@ -16,8 +16,6 @@
 #include "Common/Threads/Upper.h"
 #include "Modules/Infrastructure/NaoProvider/NaoProvider.h"
 
-using namespace std;
-
 static bool run = true;
 bool attemptingShutdown = false;
 
