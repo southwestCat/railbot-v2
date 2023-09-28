@@ -16,14 +16,14 @@ JointSensorData::JointSensorData() {
 }
 
 void to_json(nlohmann::json &j, const JointSensorData &v) {
-  j = json{{"angle", v.angle},
+  j = json{{"angle", v.angles},
            {"current", v.current},
            {"temperature", v.temperature},
            {"status", v.status}};
 }
 
 void from_json(const nlohmann::json &j, JointSensorData &v) {
-  j.at("angle").get_to(v.angle);
+  j.at("angle").get_to(v.angles);
   j.at("current").get_to(v.current);
   j.at("temperature").get_to(v.temperature);
   j.at("status").get_to(v.status);

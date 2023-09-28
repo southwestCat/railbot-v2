@@ -7,9 +7,9 @@
  */
 #pragma once
 
-#include "Representations/SensorData/JointAngle.h"
+#include "Representations/SensorData/JointAngles.h"
 
-struct JointRequest : JointAngle {
+struct JointRequest : JointAngles {
   
 };
 

@@ -7,10 +7,10 @@
  */
 #pragma once
 
-#include "JointAngle.h"
+#include "JointAngles.h"
 #include <nlohmann/json.hpp>
 
-struct JointSensorData : JointAngle {
+struct JointSensorData : JointAngles {
   enum TemperatureStatus {
     regular,       /**< 0: means regular temperature. */
     hot,           /**< 1: means temperature has reached the max limit, start reducing the stiffness. */

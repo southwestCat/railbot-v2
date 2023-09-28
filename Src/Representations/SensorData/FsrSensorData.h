@@ -11,14 +11,14 @@
 #include <nlohmann/json.hpp>
 
 #include "Common/Motion/SensorData.h"
-#include "Common/RobotParts/FSRSensors.h"
+#include "Common/RobotParts/FsrSensors.h"
 #include "Common/RobotParts/Legs.h"
-struct FSRSensorData {
-  std::array<std::array<float, FSRSensors::numOfFSRSensors>, Legs::numOfLegs> pressure;
+struct FsrSensorData {
+  std::array<std::array<float, FsrSensors::numOfFsrSensors>, Legs::numOfLegs> pressure;
   std::array<float, Legs::numOfLegs> total;
 
-  FSRSensorData();
+  FsrSensorData();
 };
 
-void to_json(nlohmann::json& j, const FSRSensorData& v);
-void from_json(const nlohmann::json& j, FSRSensorData& v);
+void to_json(nlohmann::json& j, const FsrSensorData& v);
+void from_json(const nlohmann::json& j, FsrSensorData& v);

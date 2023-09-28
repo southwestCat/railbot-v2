@@ -11,7 +11,7 @@
 
 #include "Representations/Infrastructure/FrameInfo.h"
 #include "Representations/SensorData/BatterySensorData.h"
-#include "Representations/SensorData/FSRSensorData.h"
+#include "Representations/SensorData/FsrSensorData.h"
 #include "Representations/SensorData/InertialSensorData.h"
 #include "Representations/SensorData/JointSensorData.h"
 #include "Representations/SensorData/TouchSensorData.h"
@@ -37,7 +37,7 @@ class Bb {
   _DECLARE(JointSensorData);
   _DECLARE(BatterySensorData);
   _DECLARE(InertialSensorData);
-  _DECLARE(FSRSensorData);
+  _DECLARE(FsrSensorData);
   _DECLARE(TouchSensorData);
   _DECLARE(JointRequest);
   _DECLARE(LEDRequest);

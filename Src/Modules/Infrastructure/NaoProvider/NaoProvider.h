@@ -23,7 +23,7 @@ class NaoProvider {
   _MODIFY(JointSensorData);
   _MODIFY(BatterySensorData);
   _MODIFY(InertialSensorData);
-  _MODIFY(FSRSensorData);
+  _MODIFY(FsrSensorData);
   _MODIFY(TouchSensorData);
 
  public:

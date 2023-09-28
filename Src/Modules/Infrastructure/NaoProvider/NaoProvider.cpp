@@ -113,7 +113,7 @@ void NaoProvider::update() {
 
 void NaoProvider::updateJointSensorData() {
   for (int i = 0; i < Joints::numOfJoints; i++) {
-    getJointSensorData.angle[i] = lolaMsg.Position[jointMappings[i]];
+    getJointSensorData.angles[i] = lolaMsg.Position[jointMappings[i]];
     getJointSensorData.current[i] = lolaMsg.Current[jointMappings[i]];
     getJointSensorData.temperature[i] = lolaMsg.Temperature[jointMappings[i]];
     getJointSensorData.status[i] =
@@ -142,16 +142,16 @@ void NaoProvider::updateFSRSensorData() {
   float totalL = 0.f;
   float totalR = 0.f;
   for (int leg = 0; leg < Legs::numOfLegs; leg++) {
-    for (int fsr = 0; fsr < FSRSensors::numOfFSRSensors; fsr++) {
-      getFSRSensorData.pressure[leg][fsr] = lolaMsg.FSR[leg * 4 + fsr];
+    for (int fsr = 0; fsr < FsrSensors::numOfFsrSensors; fsr++) {
+      getFsrSensorData.pressure[leg][fsr] = lolaMsg.FSR[leg * 4 + fsr];
     }
   }
-  for (int i = 0; i < FSRSensors::numOfFSRSensors; i++) {
-    totalL += getFSRSensorData.pressure[Legs::left][i];
-    totalR += getFSRSensorData.pressure[Legs::right][i];
+  for (int i = 0; i < FsrSensors::numOfFsrSensors; i++) {
+    totalL += getFsrSensorData.pressure[Legs::left][i];
+    totalR += getFsrSensorData.pressure[Legs::right][i];
   }
-  getFSRSensorData.total[Legs::left] = totalL;
-  getFSRSensorData.total[Legs::right] = totalR;
+  getFsrSensorData.total[Legs::left] = totalL;
+  getFsrSensorData.total[Legs::right] = totalR;
 }
 
 void NaoProvider::updateTouchSensorData() {
