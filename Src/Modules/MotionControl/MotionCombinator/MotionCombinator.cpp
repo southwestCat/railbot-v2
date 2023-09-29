@@ -18,4 +18,5 @@ using std::cout;
 using std::endl;
 
 void MotionCombinator::exec() {
+  getLogJointRequest = getJointRequest;
 }

@@ -14,12 +14,10 @@
 
 class MotionCombinator {
  private:
-  _USE(FrameInfo);
-  _USE(JointAngles);
-  _USE(RobotModel);
+  _USE(JointRequest);
 
  private:
-  _MODIFY(JointRequest);
+  _MODIFY(LogJointRequest);
 
  public:
   void exec();

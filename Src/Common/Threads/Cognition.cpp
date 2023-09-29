@@ -20,17 +20,26 @@ void Cognition::tick() {
   afterFrame();
 }
 
-void Cognition::updateModules() {
-  ledHandler->exec();
-  robotStateHandler->exec();
-}
 void Cognition::beforeFrame() {
+  // FrameInfo
   *bb->getFrameInfo.get() = bbt->MWCR->theFrameInfo.read();
+  // TouchSensorData
   *bb->getTouchSensorData.get() = bbt->MWCR->theTouchSensorData.read();
 }
 void Cognition::beforeModules() {}
+
+void Cognition::updateModules() {
+  // LEDRequest
+  ledHandler->exec();
+  // RobotState
+  robotStateHandler->exec();
+}
+
 void Cognition::afterModules() {}
+
 void Cognition::afterFrame() {
+  // LEDRequest
   bbt->CWMR->theLEDRequest.write(*bb->getLEDRequest.get());
+  // RobotState
   bbt->CWMR->theRobotStates.write(*bb->getRobotStates.get());
 }

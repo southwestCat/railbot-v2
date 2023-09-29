@@ -8,6 +8,7 @@
 #pragma once
 
 struct MotionInfo {
-  enum Type { standing, stand, walk, kick, keyframe };
+  enum Type { initial, standing, stand, walk, kick, keyframe };
   bool isMotionDone = false;
+  Type motion = initial;
 };

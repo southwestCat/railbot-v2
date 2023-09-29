@@ -26,4 +26,11 @@ struct JointRequest : JointAngles {
   StiffnessData stiffnessData;
 };
 
-struct LogJointRequest : JointRequest {};
+struct LogJointRequest : JointRequest {
+  LogJointRequest& operator=(const JointRequest &j) {
+    this->angles = j.angles;
+    this->timestamp = j.timestamp;
+    this->stiffnessData = j.stiffnessData;
+    return *this;
+  }
+};
