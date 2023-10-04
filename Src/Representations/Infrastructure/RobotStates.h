@@ -7,6 +7,8 @@
  */
 #pragma once
 
+#include <string>
+
 struct RobotStates {
   enum State {
     initial,
@@ -21,4 +23,5 @@ struct RobotStates {
     numOfStates
   };
   State state = initial;
+  std::string info();
 };
