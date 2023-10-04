@@ -17,6 +17,7 @@ Motion::Motion(BlackboardThread *bbt) : ThreadBase(bbt) {
   motionCombinator = std::make_unique<MotionCombinator>();
   jointAnglesProvider = std::make_unique<JointAnglesProvider>();
   robotModelProvider = std::make_unique<RobotModelProvider>();
+  headMotionEngine = std::make_unique<HeadMotionEngine>();
 }
 
 void Motion::tick() {
@@ -34,8 +35,10 @@ void Motion::updateModules() {
   jointAnglesProvider->exec();
   // RobotModel
   robotModelProvider->exec();
+  // HeadMotionOutput
+  headMotionEngine->exec();
   // KeyFrameMotionOutput
-  keyFrameMotionEngine->exec();
+  // keyFrameMotionEngine->exec();
   // JointRequest
   motionCombinator->exec();
 }

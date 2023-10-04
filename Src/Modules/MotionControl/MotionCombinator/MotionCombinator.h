@@ -14,9 +14,14 @@
 
 class MotionCombinator {
  private:
-  _USE(JointRequest);
+  _USE(RobotStates);
+  _USE(JointAngles);
+  _USE(HeadMotionEngineOutput);
+  _USE(JointLimits);
 
  private:
+  _MODIFY(MotionInfo);
+  _MODIFY(JointRequest);
   _MODIFY(LogJointRequest);
 
  public:

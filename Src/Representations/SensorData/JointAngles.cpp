@@ -8,5 +8,5 @@
 #include "JointAngles.h"
 
 JointAngles::JointAngles() {
-  angles.fill(0.f);
+  angles.fill(SensorData::off);
 }

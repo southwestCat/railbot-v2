@@ -2,6 +2,12 @@
 
 #include "Representations/Infrastructure/JointRequest.h"
 
-struct KeyFrameEngineOutput : JointRequest {
-
+struct KeyFrameEngineOutput {
+  void reset() {
+    activate = false;
+    standMotionDone = false;
+  }
+  bool activate = false;
+  bool standMotionDone = false;
+  JointRequest j;
 };

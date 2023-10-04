@@ -17,6 +17,8 @@
 class NaoProvider {
  private:
   _USE(LEDRequest);
+  _USE(JointRequest);
+  _USE(JointLimits);
 
  private:
   _MODIFY(FrameInfo);

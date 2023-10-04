@@ -37,4 +37,7 @@ void Bb::makeR() {
   _MAKE(JointAngles);
   _MAKE(RobotModel);
   _MAKE(StiffnessSettings);
+  _MAKE(HeadMotionEngineOutput);
+  _MAKE(MotionInfo);
+  _MAKE(JointLimits);
 }

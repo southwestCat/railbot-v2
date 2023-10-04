@@ -9,13 +9,16 @@
 
 #include <memory>
 
+#include "Representations/Configuration/JointLimits.h"
 #include "Representations/Configuration/MassCalibration.h"
 #include "Representations/Configuration/RobotDimensions.h"
 #include "Representations/Infrastructure/FrameInfo.h"
 #include "Representations/Infrastructure/JointRequest.h"
 #include "Representations/Infrastructure/LEDRequest.h"
 #include "Representations/Infrastructure/RobotStates.h"
+#include "Representations/MotionControl/HeadMotionEngineOutput.h"
 #include "Representations/MotionControl/KeyFrameEngineOutput.h"
+#include "Representations/MotionControl/MotionInfo.h"
 #include "Representations/Sensing/RobotModel.h"
 #include "Representations/SensorData/BatterySensorData.h"
 #include "Representations/SensorData/FsrSensorData.h"
@@ -53,6 +56,9 @@ class Bb {
   _DECLARE(JointAngles);
   _DECLARE(RobotModel);
   _DECLARE(StiffnessSettings);
+  _DECLARE(HeadMotionEngineOutput);
+  _DECLARE(MotionInfo);
+  _DECLARE(JointLimits);
 
  private:
   void makeR();

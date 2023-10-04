@@ -11,6 +11,7 @@
 
 #include "Modules/Infrastructure/JointAnglesProvider/JointAnglesProvider.h"
 #include "Modules/Infrastructure/NaoProvider/NaoProvider.h"
+#include "Modules/MotionControl/HeadMotionEngine/HeadMotionEngine.h"
 #include "Modules/MotionControl/KeyFrameMotionEngine/KeyFrameMotionEngine.h"
 #include "Modules/MotionControl/MotionCombinator/MotionCombinator.h"
 #include "Modules/MotionControl/WalkingEngine/WalkingEngine.h"
@@ -34,4 +35,5 @@ class Motion : public ThreadBase {
   std::unique_ptr<KeyFrameMotionEngine> keyFrameMotionEngine;
   std::unique_ptr<JointAnglesProvider> jointAnglesProvider;
   std::unique_ptr<RobotModelProvider> robotModelProvider;
+  std::unique_ptr<HeadMotionEngine> headMotionEngine;
 };

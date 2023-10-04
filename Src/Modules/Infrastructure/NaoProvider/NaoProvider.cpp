@@ -117,7 +117,8 @@ void NaoProvider::updateJointSensorData() {
     getJointSensorData.temperature[i] = lolaMsg.Temperature[jointMappings[i]];
     getJointSensorData.status[i] =
         lolaMsg.Status[jointMappings[i]] < JointSensorData::unknown
-            ? static_cast<JointSensorData::TemperatureStatus>(lolaMsg.Status[jointMappings[i]])
+            ? static_cast<JointSensorData::TemperatureStatus>(
+                  lolaMsg.Status[jointMappings[i]])
             : JointSensorData::unknown;
   }
 }
@@ -213,13 +214,24 @@ void NaoProvider::sendPacket() {
 }
 
 void NaoProvider::setJoints() {
-  pack.Stiffness.fill(0);
+  for (int i = 0; i < Joints::numOfJoints; i++) {
+    if (getJointRequest.angles[i] == JointSensorData::ignore) continue;
+    if (getJointRequest.angles[i] == JointSensorData::off) {
+      pack.Stiffness[jointMappings[i]] = 0.0;
+    } else {
+      // pack.Position[jointMappings[i]] = getJointRequest.angles[i];
+      pack.Position[jointMappings[i]] = getJointLimits.limits[i].clamped(getJointRequest.angles[i]);
+      float stiff = static_cast<float>(getJointRequest.stiffnessData.stiffnesses[i]) / 100.0;
+      assert(stiff >= 0.0 && stiff <= 1.0);
+      pack.Stiffness[jointMappings[i]] = stiff;
+    }
+  }
 }
 
 void NaoProvider::setLEDs() {
-  pack.Chest[0] = getLEDRequest.ledStates[LEDRequest::chestRed];  // red
+  pack.Chest[0] = getLEDRequest.ledStates[LEDRequest::chestRed];    // red
   pack.Chest[1] = getLEDRequest.ledStates[LEDRequest::chestGreen];  // green
-  pack.Chest[2] = getLEDRequest.ledStates[LEDRequest::chestBlue];  // blue
+  pack.Chest[2] = getLEDRequest.ledStates[LEDRequest::chestBlue];   // blue
 
   pack.LEar.fill(1);
   pack.REar.fill(1);
