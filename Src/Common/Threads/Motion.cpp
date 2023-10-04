@@ -38,7 +38,7 @@ void Motion::updateModules() {
   // HeadMotionOutput
   headMotionEngine->exec();
   // KeyFrameMotionOutput
-  // keyFrameMotionEngine->exec();
+  keyFrameMotionEngine->exec();
   // JointRequest
   motionCombinator->exec();
 }
@@ -51,7 +51,7 @@ void Motion::beforeFrame() {
 void Motion::afterFrame() {
   bbt->MWCR->theFrameInfo.write(*bb->getFrameInfo.get());
   bbt->MWCR->theTouchSensorData.write(*bb->getTouchSensorData.get());
-  
+  bbt->MWCR->theMotionInfo.write(*bb->getMotionInfo.get());
 }
 
 void Motion::beforeModules() {}

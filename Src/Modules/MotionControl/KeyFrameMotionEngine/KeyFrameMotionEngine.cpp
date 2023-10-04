@@ -17,11 +17,14 @@ using std::endl;
 
 JointRequest startJR;
 JointRequest standTargetJR;
+JointRequest standhighTargetJR;
 
 KeyFrameMotionEngine::KeyFrameMotionEngine() {
   MotionUtilities::stand(standTargetJR);
+  standhighTargetJR.angles.fill(0_deg);
   for (int i = Joints::firstLegJoint; i < Joints::numOfJoints; i++) {
     standTargetJR.stiffnessData.stiffnesses[i] = 75;
+    standhighTargetJR.stiffnessData.stiffnesses[i] = 75;
   }
 }
 
@@ -37,6 +40,9 @@ void KeyFrameMotionEngine::exec() {
     case RobotStates::standing:
       standing();
       break;
+    case RobotStates::standinghigh:
+      standingHigh();
+      break;
     case RobotStates::sitdown:
       sitdown();
       break;
@@ -46,14 +52,18 @@ void KeyFrameMotionEngine::exec() {
 }
 
 void KeyFrameMotionEngine::reset() {
+  getKeyFrameEngineOutput.activate = false;
   getKeyFrameEngineOutput.reset();
   standP = StandingProcess::start;
+  standhighP = StandingHighProcess::start;
   interpolateStandTime = getFrameInfo.time;
+  interpolateTime = getFrameInfo.time;
 }
 
 bool KeyFrameMotionEngine::shouldActive() {
   if (getRobotStates.state == RobotStates::standing) return true;
-  if (getRobotStates.state == RobotStates::sitdown) return true;
+  if (getRobotStates.state == RobotStates::standinghigh) return true;
+  if (getRobotStates.state == RobotStates::sitting) return true;
   return false;
 }
 
@@ -66,10 +76,11 @@ void KeyFrameMotionEngine::standing() {
       return;
     }
     MotionUtilities::interpolate(startJR, standTargetJR, t,
-                                 getKeyFrameEngineOutput.j, getJointAngles);
+                                 jr, getJointAngles);
   };
   switch (standP) {
     case StandingProcess::start:
+      interpolateStandTime = getFrameInfo.time;
       startJR.angles = getLogJointRequest.angles;
       standP = StandingProcess::interpolation;
       break;
@@ -78,6 +89,34 @@ void KeyFrameMotionEngine::standing() {
       break;
     case StandingProcess::end:
       getKeyFrameEngineOutput.standMotionDone = true;
+      break;
+    default:
+      break;
+  }
+}
+
+void KeyFrameMotionEngine::standingHigh() {
+  auto interp = [&](JointRequest &jr){
+    unsigned tms = getFrameInfo.getTimeSince(interpolateTime);
+    float t = static_cast<float>(tms) / StandHighTime;
+    if (t > 1.0) {
+      standhighP = StandingHighProcess::end;
+      return;
+    }
+    MotionUtilities::interpolate(startJR, standhighTargetJR, t, jr, getJointAngles);
+  };
+
+  switch (standhighP) {
+    case StandingHighProcess::start:
+      interpolateTime = getFrameInfo.time;
+      startJR.angles = getLogJointRequest.angles;
+      standhighP = StandingHighProcess::interpolation;
+      break;
+    case StandingHighProcess::interpolation:
+      interp(getKeyFrameEngineOutput.j);
+      break;
+    case StandingHighProcess::end:
+      getKeyFrameEngineOutput.standHighMotionDone = true;
       break;
     default:
       break;

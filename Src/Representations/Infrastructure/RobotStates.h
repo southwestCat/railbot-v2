@@ -11,8 +11,10 @@ struct RobotStates {
   enum State {
     initial,
     standing,
-    standhigh,
+    standinghigh,
+    sitting,
     stand,
+    standhigh,
     walk,
     kick,
     sitdown,

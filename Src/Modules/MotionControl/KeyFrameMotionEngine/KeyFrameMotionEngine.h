@@ -24,6 +24,7 @@ class KeyFrameMotionEngine {
  private:
   bool shouldActive();
   void standing();
+  void standingHigh();
   void sitdown();
   void reset();
 
@@ -33,8 +34,11 @@ class KeyFrameMotionEngine {
 
  private:
   static constexpr float StandingTime = 1500.f;
+  static constexpr float StandHighTime = 1000.f;
   static constexpr float SitDownTime = 1500.f;
 
   enum class StandingProcess { start, interpolation, end } standP = StandingProcess::start;
-  unsigned interpolateStandTime;
+  enum class StandingHighProcess {start, interpolation, end} standhighP = StandingHighProcess::start;
+  unsigned interpolateStandTime; 
+  unsigned interpolateTime;
 };

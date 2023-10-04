@@ -17,7 +17,7 @@ class MotionCombinator {
   _USE(RobotStates);
   _USE(JointAngles);
   _USE(HeadMotionEngineOutput);
-  _USE(JointLimits);
+  _USE(KeyFrameEngineOutput);
 
  private:
   _MODIFY(MotionInfo);

@@ -25,6 +25,8 @@ void Cognition::beforeFrame() {
   *bb->getFrameInfo.get() = bbt->MWCR->theFrameInfo.read();
   // TouchSensorData
   *bb->getTouchSensorData.get() = bbt->MWCR->theTouchSensorData.read();
+  // MotionInfo
+  *bb->getMotionInfo.get() = bbt->MWCR->theMotionInfo.read();
 }
 void Cognition::beforeModules() {}
 

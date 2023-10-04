@@ -14,6 +14,7 @@ class RobotStateHandler {
  private:
   _USE(TouchSensorData);
   _USE(FrameInfo);
+  _USE(MotionInfo);
 
  private:
   _MODIFY(RobotStates);
@@ -24,8 +25,11 @@ class RobotStateHandler {
  private:
   void changeState();
   bool canChange();
+  bool touchHeadALL();
 
  private:
   static constexpr int ChestButtonPressedThreshold = 150;
+  static constexpr int HeadButtonPressedThreshold = 1000;
   unsigned chestPressed;
+  unsigned headPressed;
 };
