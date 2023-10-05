@@ -25,16 +25,18 @@ void Cognition::beforeFrame() {
   *bb->getFrameInfo.get() = bbt->MWCR->theFrameInfo.read();
   // TouchSensorData
   *bb->getTouchSensorData.get() = bbt->MWCR->theTouchSensorData.read();
+  // BatterSensorData
+  *bb->getBatterySensorData.get() = bbt->MWCR->theBatterySensorData.read();
   // MotionInfo
   *bb->getMotionInfo.get() = bbt->MWCR->theMotionInfo.read();
 }
 void Cognition::beforeModules() {}
 
 void Cognition::updateModules() {
-  // LEDRequest
-  ledHandler->exec();
   // RobotState
   robotStateHandler->exec();
+  // LEDRequest
+  ledHandler->exec();
 }
 
 void Cognition::afterModules() {}

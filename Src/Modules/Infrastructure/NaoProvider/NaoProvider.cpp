@@ -15,6 +15,8 @@
 
 #include "Common/Time/Time.h"
 
+using std::cout;
+using std::endl;
 using json = nlohmann::json;
 
 // Joint order in LoLA data
@@ -77,6 +79,21 @@ const int NaoProvider::touchMappings[TouchSensorData::numOfTouchs] = {
     LFootRight, LHandBack, LHandLeft,  LHandRight, RFootLeft,
     RFootRight, RHandBack, RHandLeft,  RHandRight};
 
+const int NaoProvider::skullMappings[] = {
+  LEDRequest::headFrontLeft1,
+  LEDRequest::headFrontLeft0,
+  LEDRequest::headMiddleLeft0,
+  LEDRequest::headRearLeft0,
+  LEDRequest::headRearLeft1,
+  LEDRequest::headRearLeft2,
+  LEDRequest::headRearRight2,
+  LEDRequest::headRearRight1,
+  LEDRequest::headRearRight0,
+  LEDRequest::headMiddleRight0,
+  LEDRequest::headFrontRight0,
+  LEDRequest::headFrontRight1,
+};
+
 NaoProvider::NaoProvider() {
   receivedPacket = std::make_unique<unsigned char[]>(LOLAMSGLEN);
   packetToSend = std::make_unique<unsigned char[]>(MAXSENDMSGLEN);
@@ -124,10 +141,12 @@ void NaoProvider::updateJointSensorData() {
 }
 
 void NaoProvider::updateBatterySensorData() {
-  getBatterySensorData.charge = lolaMsg.Battery[0];
-  getBatterySensorData.current = lolaMsg.Battery[1];
-  getBatterySensorData.status = lolaMsg.Battery[2];
+  getBatterySensorData.level = lolaMsg.Battery[0];
+  getBatterySensorData.status = lolaMsg.Battery[1];
+  getBatterySensorData.charging = (static_cast<short>(lolaMsg.Battery[1]) & 0x80) != 0;
+  getBatterySensorData.current = lolaMsg.Battery[2];
   getBatterySensorData.temperature = lolaMsg.Battery[3];
+  
 }
 
 void NaoProvider::updateInertialSensorData() {
@@ -229,15 +248,28 @@ void NaoProvider::setJoints() {
 }
 
 void NaoProvider::setLEDs() {
+  bool blink = false;
+  bool fastblink = false;
+
+  if (getFrameInfo.getTimeSince(LoopLEDBlink) > LEDBlinkTime) {
+    LoopLEDBlink = getFrameInfo.time;
+    blink = true;
+  }
+  if (getFrameInfo.getTimeSince(LoopLEDFastBLink) > LEDFastBlinkTime) {
+    LoopLEDFastBLink = getFrameInfo.time;
+    fastblink = true;
+  }
+
   pack.Chest[0] = getLEDRequest.ledStates[LEDRequest::chestRed];    // red
   pack.Chest[1] = getLEDRequest.ledStates[LEDRequest::chestGreen];  // green
   pack.Chest[2] = getLEDRequest.ledStates[LEDRequest::chestBlue];   // blue
 
-  pack.LEar.fill(1);
-  pack.REar.fill(1);
-  pack.LEye.fill(1);
-  pack.REye.fill(1);
-  pack.Skull.fill(1);
+  // Skull
+  for (int i = 0; i < NSkull; i++) {
+    pack.Skull[i] = getLEDRequest.ledStates[skullMappings[i]] == LEDRequest::on ? 1.0 : 
+      getLEDRequest.ledStates[skullMappings[i]] == LEDRequest::blinking && blink ? 1.0 : 
+      getLEDRequest.ledStates[skullMappings[i]] == LEDRequest::fastBlinking && fastblink ? 1.0 : 0.0;
+  }
 }
 
 void NaoProvider::disableMotor() { pack.Stiffness.fill(0); }

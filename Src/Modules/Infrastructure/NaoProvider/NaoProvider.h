@@ -72,7 +72,13 @@ class NaoProvider {
                                              indices to request joint indices.
                                            */
   static const int touchMappings[TouchSensorData::numOfTouchs];
+  static const int skullMappings[NSkull];
   unsigned timeWhenPacketReceived = 0;
+
+  static constexpr int LEDBlinkTime = 200;
+  static constexpr int LEDFastBlinkTime = 100;
+  unsigned LoopLEDBlink = 0;
+  unsigned LoopLEDFastBLink = 0;
 
  private:
   void update();

@@ -52,6 +52,7 @@ void Motion::afterFrame() {
   bbt->MWCR->theFrameInfo.write(*bb->getFrameInfo.get());
   bbt->MWCR->theTouchSensorData.write(*bb->getTouchSensorData.get());
   bbt->MWCR->theMotionInfo.write(*bb->getMotionInfo.get());
+  bbt->MWCR->theBatterySensorData.write(*bb->getBatterySensorData.get());
 }
 
 void Motion::beforeModules() {}

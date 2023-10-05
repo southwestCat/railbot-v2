@@ -12,10 +12,11 @@
 #include "Common/Motion/SensorData.h"
 
 struct BatterySensorData {
-  float charge = SensorData::off;  // [0, 1]
+  float level = SensorData::off;  // [0, 1]
   float current = SensorData::off;
-  float status = SensorData::off;
   float temperature = SensorData::off;
+  float status = SensorData::off;
+  bool charging = false;
 };
 
 void to_json(nlohmann::json& j, const BatterySensorData& v);

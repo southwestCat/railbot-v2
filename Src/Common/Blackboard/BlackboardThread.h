@@ -22,6 +22,7 @@ struct MotionWriteCognitionRead {
   _DECLARE_TRIBUF(FrameInfo);
   _DECLARE_TRIBUF(TouchSensorData);
   _DECLARE_TRIBUF(MotionInfo);
+  _DECLARE_TRIBUF(BatterySensorData);
 };
 struct MotionWriteUpperRead {};
 struct MotionWriteLowerRead {};

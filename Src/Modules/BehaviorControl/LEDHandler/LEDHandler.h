@@ -13,10 +13,25 @@ class LEDHandler {
  private:
   _USE(FrameInfo);
   _USE(TouchSensorData);
+  _USE(BatterySensorData);
+  _USE(RobotStates);
 
  private:
   _MODIFY(LEDRequest);
 
  public:
   void exec();
+
+ private:
+  void chestLEDOffAll();
+  void headLEDOffAll();
+  void headLEDCharging();
+
+  void handleHeadLED();
+  void handleChestLED();
+
+ private:
+  static constexpr int HeadChargingLoopTime = 100;
+  int HeadLEDLoopTime = 0;
+  int HeadLEDLoop = LEDRequest::firstHeadLED;
 };

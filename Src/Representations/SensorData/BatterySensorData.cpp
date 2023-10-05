@@ -10,14 +10,16 @@
 using json = nlohmann::json;
 
 void to_json(nlohmann::json& j, const BatterySensorData& v) {
-  j = json{{"charge", v.charge},
+  j = json{{"level", v.level},
            {"current", v.current},
+           {"temperature", v.temperature},
            {"status", v.status},
-           {"temperature", v.temperature}};
+           {"charging", v.charging}};
 }
 void from_json(const nlohmann::json& j, BatterySensorData& v) {
-  j.at("charge").get_to(v.charge);
+  j.at("level").get_to(v.level);
   j.at("current").get_to(v.current);
-  j.at("status").get_to(v.status);
   j.at("temperature").get_to(v.temperature);
+  j.at("status").get_to(v.status);
+  j.at("charging").get_to(v.charging);
 }
