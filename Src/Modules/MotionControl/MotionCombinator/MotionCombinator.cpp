@@ -21,6 +21,7 @@ void MotionCombinator::exec() {
   if (getRobotStates.state == RobotStates::initial) {
     getLogJointRequest.angles = getJointAngles.angles;
     getLogJointRequest.stiffnessData.stiffnesses.fill(0.0);
+    getJointRequest.stiffnessData.stiffnesses.fill(0.0);
     return;
   } else if (getRobotStates.state == RobotStates::standing) {
     getJointRequest.angles[Joints::headYaw] = getHeadMotionEngineOutput.j.angles[Joints::headYaw];
@@ -42,6 +43,11 @@ void MotionCombinator::exec() {
       getJointRequest.angles[i] = getKeyFrameEngineOutput.j.angles[i];
       getJointRequest.stiffnessData.stiffnesses[i] = getKeyFrameEngineOutput.j.stiffnessData.stiffnesses[i];
     }
+  } else if (getRobotStates.state == RobotStates::sitting) {
+    for (int i = Joints::firstLegJoint; i < Joints::numOfJoints; i++) {
+      getJointRequest.angles[i] = getKeyFrameEngineOutput.j.angles[i];
+      getJointRequest.stiffnessData.stiffnesses[i] = getKeyFrameEngineOutput.j.stiffnessData.stiffnesses[i];
+    }
   }
 
   if (getRobotStates.state == RobotStates::standing && getKeyFrameEngineOutput.standMotionDone) {
@@ -49,6 +55,9 @@ void MotionCombinator::exec() {
   }
   if (getRobotStates.state == RobotStates::standinghigh && getKeyFrameEngineOutput.standHighMotionDone) {
     getMotionInfo.motion = MotionInfo::standhigh;
+  }
+  if (getRobotStates.state == RobotStates::sitting && getKeyFrameEngineOutput.sittingMotionDone) {
+    getMotionInfo.motion = MotionInfo::initial;
   }
 
   getLogJointRequest = getJointRequest;

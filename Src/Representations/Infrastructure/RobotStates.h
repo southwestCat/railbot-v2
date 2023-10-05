@@ -19,7 +19,6 @@ struct RobotStates {
     standhigh,
     walk,
     kick,
-    sitdown,
     numOfStates
   };
   State state = initial;

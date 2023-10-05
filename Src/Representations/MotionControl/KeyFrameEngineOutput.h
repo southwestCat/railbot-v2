@@ -7,9 +7,11 @@ struct KeyFrameEngineOutput {
     activate = false;
     standMotionDone = false;
     standHighMotionDone = false;
+    sittingMotionDone = false;
   }
+  JointRequest j;
   bool activate = false;
   bool standMotionDone = false;
   bool standHighMotionDone = false;
-  JointRequest j;
+  bool sittingMotionDone = false;
 };

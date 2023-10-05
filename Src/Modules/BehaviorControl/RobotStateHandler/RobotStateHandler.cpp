@@ -40,6 +40,9 @@ void RobotStateHandler::exec() {
   if (getRobotStates.state == RobotStates::standinghigh && getMotionInfo.motion == MotionInfo::standhigh) {
     getRobotStates.state = RobotStates::standhigh;
   }
+  if (getRobotStates.state == RobotStates::sitting && getMotionInfo.motion == MotionInfo::initial) {
+    getRobotStates.state = RobotStates::initial;
+  }
 }
 
 bool RobotStateHandler::canChange() {
