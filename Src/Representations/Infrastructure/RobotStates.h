@@ -17,10 +17,13 @@ struct RobotStates {
     sitting,
     stand,
     standhigh,
+    prewalk,
     walk,
     kick,
     numOfStates
   };
+
+  static std::string StateName[numOfStates];
   State state = initial;
   std::string info();
 };

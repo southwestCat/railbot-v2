@@ -19,6 +19,7 @@
 #include "Representations/MotionControl/HeadMotionEngineOutput.h"
 #include "Representations/MotionControl/KeyFrameEngineOutput.h"
 #include "Representations/MotionControl/MotionInfo.h"
+#include "Representations/MotionControl/WalkingEngineOutput.h"
 #include "Representations/Sensing/RobotModel.h"
 #include "Representations/SensorData/BatterySensorData.h"
 #include "Representations/SensorData/FsrSensorData.h"
@@ -59,6 +60,7 @@ class Bb {
   _DECLARE(HeadMotionEngineOutput);
   _DECLARE(MotionInfo);
   _DECLARE(JointLimits);
+  _DECLARE(WalkingEngineOutput);
 
  private:
   void makeR();

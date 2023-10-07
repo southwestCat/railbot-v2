@@ -17,7 +17,10 @@
 using std::cout;
 using std::endl;
 
+//-> TODO: use motionoutput.active
 void MotionCombinator::exec() {
+  assert(!activeEngineMoreThanOne());
+  
   if (getRobotStates.state == RobotStates::initial) {
     getLogJointRequest.angles = getJointAngles.angles;
     getLogJointRequest.stiffnessData.stiffnesses.fill(0.0);
@@ -48,6 +51,11 @@ void MotionCombinator::exec() {
       getJointRequest.angles[i] = getKeyFrameEngineOutput.j.angles[i];
       getJointRequest.stiffnessData.stiffnesses[i] = getKeyFrameEngineOutput.j.stiffnessData.stiffnesses[i];
     }
+  } else if (getRobotStates.state == RobotStates::prewalk) {
+    for (int i = Joints::firstLegJoint; i < Joints::numOfJoints; i++) {
+      getJointRequest.angles[i] = getWalkingEngineOutput.j.angles[i];
+      getJointRequest.stiffnessData.stiffnesses[i] = getWalkingEngineOutput.j.stiffnessData.stiffnesses[i];
+    }
   }
 
   if (getRobotStates.state == RobotStates::standing && getKeyFrameEngineOutput.standMotionDone) {
@@ -59,6 +67,15 @@ void MotionCombinator::exec() {
   if (getRobotStates.state == RobotStates::sitting && getKeyFrameEngineOutput.sittingMotionDone) {
     getMotionInfo.motion = MotionInfo::initial;
   }
+  if (getRobotStates.state == RobotStates::prewalk && getWalkingEngineOutput.inWalking) {
+    getMotionInfo.motion = MotionInfo::walk;
+  }
 
   getLogJointRequest = getJointRequest;
+}
+
+bool MotionCombinator::activeEngineMoreThanOne() {
+  int actived = 0;
+  if (getKeyFrameEngineOutput.activate) actived++;
+  return actived > 1;
 }

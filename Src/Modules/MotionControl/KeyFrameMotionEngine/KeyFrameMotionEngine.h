@@ -37,9 +37,26 @@ class KeyFrameMotionEngine {
   static constexpr float StandHighTime = 1000.f;
   static constexpr float SitDownTime = 1500.f;
 
-  enum class StandingProcess { start, interpolation, end } standP = StandingProcess::start;
-  enum class StandingHighProcess {start, interpolation, end} standhighP = StandingHighProcess::start;
-  enum class SittingProcess {start, interpolation, end} sittingP = SittingProcess::start;
-  unsigned interpolateStandTime; 
+  JointRequest startJR;
+  JointRequest standTargetJR;
+  JointRequest standhighTargetJR;
+  JointRequest sittingTargetJR;
+
+  enum class StandingProcess {
+    start,
+    interpolation,
+    end
+  } standP = StandingProcess::start;
+  enum class StandingHighProcess {
+    start,
+    interpolation,
+    end
+  } standhighP = StandingHighProcess::start;
+  enum class SittingProcess {
+    start,
+    interpolation,
+    end
+  } sittingP = SittingProcess::start;
+  unsigned interpolateStandTime;
   unsigned interpolateTime;
 };

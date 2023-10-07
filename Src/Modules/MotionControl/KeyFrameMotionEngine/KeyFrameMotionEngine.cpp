@@ -15,11 +15,6 @@
 using std::cout;
 using std::endl;
 
-JointRequest startJR;
-JointRequest standTargetJR;
-JointRequest standhighTargetJR;
-JointRequest sittingTargetJR;
-
 KeyFrameMotionEngine::KeyFrameMotionEngine() {
   MotionUtilities::stand(standTargetJR);
   MotionUtilities::sit(sittingTargetJR);

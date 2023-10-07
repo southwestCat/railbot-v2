@@ -18,6 +18,7 @@ class MotionCombinator {
   _USE(JointAngles);
   _USE(HeadMotionEngineOutput);
   _USE(KeyFrameEngineOutput);
+  _USE(WalkingEngineOutput);
 
  private:
   _MODIFY(MotionInfo);
@@ -26,4 +27,7 @@ class MotionCombinator {
 
  public:
   void exec();
+
+  private:
+  bool activeEngineMoreThanOne();
 };

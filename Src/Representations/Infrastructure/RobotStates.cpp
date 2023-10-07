@@ -9,12 +9,11 @@
 
 #include <cassert>
 
-static std::string StateName[] = {
+std::string RobotStates::StateName[] = {
     "initial",   "standing", "standinghigh", "sitting", "stand",
     "standhigh", "walk",     "kick",         "sitdown"
 };
 
 std::string RobotStates::info() {
-  assert(sizeof(StateName) / sizeof(std::string) == numOfStates);
   return StateName[state];
 }

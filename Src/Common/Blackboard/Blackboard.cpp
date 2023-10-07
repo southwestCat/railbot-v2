@@ -40,4 +40,5 @@ void Bb::makeR() {
   _MAKE(HeadMotionEngineOutput);
   _MAKE(MotionInfo);
   _MAKE(JointLimits);
+  _MAKE(WalkingEngineOutput);
 }

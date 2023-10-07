@@ -36,4 +36,5 @@ class Motion : public ThreadBase {
   std::unique_ptr<JointAnglesProvider> jointAnglesProvider;
   std::unique_ptr<RobotModelProvider> robotModelProvider;
   std::unique_ptr<HeadMotionEngine> headMotionEngine;
+  std::unique_ptr<WalkingEngine> walkingEngine;
 };

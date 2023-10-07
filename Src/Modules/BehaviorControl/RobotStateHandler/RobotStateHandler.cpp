@@ -43,6 +43,9 @@ void RobotStateHandler::exec() {
   if (getRobotStates.state == RobotStates::sitting && getMotionInfo.motion == MotionInfo::initial) {
     getRobotStates.state = RobotStates::initial;
   }
+  if (getRobotStates.state == RobotStates::prewalk && getMotionInfo.motion == MotionInfo::walk) {
+    getRobotStates.state = RobotStates::walk;
+  }
 }
 
 bool RobotStateHandler::canChange() {
@@ -55,6 +58,12 @@ bool RobotStateHandler::canChange() {
 void RobotStateHandler::changeState() {
   if (getRobotStates.state == RobotStates::initial) {
     getRobotStates.state = RobotStates::standing;
+  }
+  if (getRobotStates.state == RobotStates::standhigh) {
+    getRobotStates.state = RobotStates::prewalk;
+  }
+  if (getRobotStates.state == RobotStates::walk) {
+    getRobotStates.state = RobotStates::standinghigh;
   }
 }
 
