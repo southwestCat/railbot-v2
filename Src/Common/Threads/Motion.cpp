@@ -19,6 +19,7 @@ Motion::Motion(BlackboardThread *bbt) : ThreadBase(bbt) {
   robotModelProvider = std::make_unique<RobotModelProvider>();
   headMotionEngine = std::make_unique<HeadMotionEngine>();
   walkingEngine = std::make_unique<WalkingEngine>();
+  motionLogFile = std::make_unique<MotionLogFile>();
 }
 
 void Motion::tick() {
@@ -44,6 +45,9 @@ void Motion::updateModules() {
   walkingEngine->exec();
   // JointRequest
   motionCombinator->exec();
+
+  // Log to file
+  motionLogFile->exec();
 }
 
 void Motion::beforeFrame() {

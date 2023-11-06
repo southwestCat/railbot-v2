@@ -16,6 +16,7 @@
 #include "Modules/MotionControl/MotionCombinator/MotionCombinator.h"
 #include "Modules/MotionControl/WalkingEngine/WalkingEngine.h"
 #include "Modules/Sensing/RobotModelProvider/RobotModelProvider.h"
+#include "Modules/MotionControl/MotionLogFile/MotionLogFile.h"
 #include "ThreadBase.h"
 
 class Motion : public ThreadBase {
@@ -37,4 +38,5 @@ class Motion : public ThreadBase {
   std::unique_ptr<RobotModelProvider> robotModelProvider;
   std::unique_ptr<HeadMotionEngine> headMotionEngine;
   std::unique_ptr<WalkingEngine> walkingEngine;
+  std::unique_ptr<MotionLogFile> motionLogFile;
 };

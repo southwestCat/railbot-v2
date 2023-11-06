@@ -26,4 +26,10 @@ class HeadMotionEngine {
   unsigned startTime;
   float initialPan;
   float initialTilt;
+
+  enum class StandHighProcess {
+    start,
+    interp,
+    end
+  } standhighP = StandHighProcess::start;
 };
