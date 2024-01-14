@@ -31,16 +31,18 @@ class TrippleBuffer {
     assert(writting < NUM);
     
     *data[writting].get() = t;
-    std::atomic_thread_fence(std::memory_order_acq_rel);
-    newest = writting;
+    // std::atomic_thread_fence(std::memory_order_acq_rel);
+    // newest = writting;
+    newest.exchange(writting.load());
 
-    std::atomic_thread_fence(std::memory_order_release);
+    // std::atomic_thread_fence(std::memory_order_release);
   }
 
   const T& read() {
-    std::atomic_thread_fence(std::memory_order_acquire);
-    reading = newest;
-    std::atomic_thread_fence(std::memory_order_acq_rel);
+    // std::atomic_thread_fence(std::memory_order_acquire);
+    // reading = newest;
+    reading.exchange(newest.load());
+    // std::atomic_thread_fence(std::memory_order_acq_rel);
     assert(data[reading] != nullptr);
     return *data[reading].get();
   }
@@ -55,7 +57,10 @@ class TrippleBuffer {
  private:
   enum { NUM = 3 };
   std::unique_ptr<T> data[NUM];
-  volatile int writting;
-  volatile int reading;
-  volatile int newest;
+  // volatile int writting;
+  // volatile int reading;
+  // volatile int newest;
+  std::atomic_int writting;
+  std::atomic_int reading;
+  std::atomic_int newest;
 };
